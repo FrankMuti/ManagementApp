@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f2f2f2"
+    android:orientation="vertical"
+    tools:context=".fragments.Utilities">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_margin="5dp">
+
+        <Button
+            android:id="@+id/utPotentialClientsBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/potential_clients"
+            android:textAppearance="@style/UtilityButtonText"
+            android:drawableTop="@drawable/icons8_add_user_male_96px"
+            android:elevation="0dp"
+            android:drawableTintMode="screen"
+            android:background="@color/colorAccentBlue"
+            android:textColor="@color/colorAccent"
+            android:padding="10dp"
+            android:layout_margin="2dp"
+            />
+
+        <Button
+            android:id="@+id/utConfirmedClients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Confirmed Clients"
+            android:textAppearance="@style/UtilityButtonText"
+            android:drawableTop="@drawable/icons8_conference_background_selected_96px"
+            android:elevation="0dp"
+            android:background="@color/colorAccentBlue"
+            android:textColor="@color/colorAccent"
+            android:padding="10dp"
+            android:layout_margin="2dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_margin="5dp">
+
+        <Button
+            android:id="@+id/utServiceProvider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/service_provider"
+            android:textAppearance="@style/UtilityButtonText"
+            android:drawableTop="@drawable/icons8_ledger_100px"
+            android:elevation="0dp"
+            android:drawableTintMode="screen"
+            android:background="@color/colorAccentBlue"
+            android:textColor="@color/colorAccent"
+            android:padding="10dp"
+            android:layout_margin="2dp"
+            />
+
+        <Button
+            android:id="@+id/utMyEarnings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/my_earnings"
+            android:textAppearance="@style/UtilityButtonText"
+            android:drawableTop="@drawable/icons8_money_bag_euro_100px"
+            android:elevation="0dp"
+            android:background="@color/colorAccentBlue"
+            android:textColor="@color/colorAccent"
+            android:padding="10dp"
+            android:layout_margin="2dp"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

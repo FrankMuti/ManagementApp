@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Theme Mode -->
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#f3f3f3</color>
+    <color name="colorAccent">#F5F5F5</color>
+    <color name="colorAccentBlue">#2979FF</color>
+    <color name="colorAccentBlueLight">#2962FF</color>
+    <color name="darkText">#202020</color>
+    <color name="grey">#5F5F5F</color>
+    <color name="lightBlue">#039BE5</color>
+
+    <color name="white">#ffffffff</color>
+    <color name="black">#414141</color>
+    <color name="yellow">#fff5f504</color>
+    <color name="red">#B71C1C</color>
+
+</resources>

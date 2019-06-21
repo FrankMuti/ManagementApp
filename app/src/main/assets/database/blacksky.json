@@ -1,0 +1,90 @@
+{
+  "potential": [
+    {
+      "Name": "Frank Stein",
+      "Phone": "0740114870",
+      "Location": "Nairobi",
+      "Service": "Wedding Photography",
+      "Date": "11 July, 2018",
+      "Time": "12:00 PM"
+    },
+    {
+      "Name": "Ben Kamau",
+      "Phone": "0742124272",
+      "Location": "Nakuru",
+      "Service": "Wedding Videography",
+      "Date": "1 July, 2018",
+      "Time": "10:00 AM"
+    },
+    {
+      "Name": "Ben Kamau",
+      "Phone": "0742124272",
+      "Location": "Nakuru",
+      "Service": "Wedding Videography",
+      "Date": "1 July, 2018",
+      "Time": "10:00 AM"
+    },
+    {
+      "Name": "Frank Stein",
+      "Phone": "0740114870",
+      "Location": "Nairobi",
+      "Service": "Wedding Photography",
+      "Date": "11 July, 2018",
+      "Time": "12:00 PM"
+    }
+  ],
+
+  "confirmed": [
+    {
+      "Name": "",
+      "Number": "",
+      "Service": "",
+      "Confirmed_Date": "",
+      "Agreed Price": 0,
+      "Deposit Paid": 0,
+      "Balance": 0
+    },
+    {
+      "Name": "",
+      "Number": "",
+      "Service": "",
+      "Confirmed_Date": "",
+      "Agreed Price": 0,
+      "Deposit Paid": 0,
+      "Balance": 0
+    }
+  ],
+
+  "payment_expenses": [
+    {
+      "Name": "Frank Stein",
+      "Phone": "0740114870",
+      "Service": "Android App Developer",
+      "Agreed Amount": 12000,
+      "Deposit Paid": 2000,
+      "Balance": 10000,
+      "Locked Date": "18th June, 2018"
+    }
+  ],
+
+  "services_offered": [
+    {
+      "service_1": "WEDDING PHOTOGRAPHY",
+      "service_2": "WEDDING VIDEOGRAPHY",
+      "service_3": "WEDDING PHOTOGRAPHY AND VIDEOGRAPHY",
+      "service_4": "FAMILY PHOTOSHOOT",
+      "service_5": "BIRTHDAYS SHOOT",
+      "service_6": "STUDIO SHOOT",
+      "service_7": "COUPLE SHOOT",
+      "service_8": "FASHION SHOOT",
+      "service_9": "PRODUCT PHOTOGRAPHY",
+      "service_10": "GRADUATION SHOOT",
+      "service_11": "BABY SHOWERS",
+      "service_12": "BRIDAL SHOWERS",
+      "service_13": "ENGAGEMENT SHOOT",
+      "service_14": "CORPORATE AND COMMERCIAL COVERAGE",
+      "service_15": "INTERIOR / REAL ESTATE PHOTOGRAPHY"
+    }
+  ]
+}
+

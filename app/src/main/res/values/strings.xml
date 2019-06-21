@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Black Sky</string>
+    <string name="black_sky_lenses">Black Sky Lenses</string>
+    <string name="username">username</string>
+    <string name="company_logo">Company Logo</string>
+    <string name="remember_me">Remember me</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="bookings">Bookings</string>
+    <string name="new_client">New Client</string>
+    <string name="earnings">Earnings</string>
+    <string name="clients">Clients</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_client_action">New Client</string>
+    <string name="options">Options</string>
+    <string name="select_service">Select Service</string>
+    <string name="services">Services</string>
+    <string name="add_potential_client">Add Potential Client</string>
+    <string name="utilities">Utilities</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="potential_clients">Potential Clients</string>
+    <string name="expense_payments">Expense Payments</string>
+    <string name="my_earnings">My Earnings</string>
+    <string name="your_appointments">Your Appointments</string>
+    <string name="confirmed_client">Confirm Client</string>
+
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="RememberMe">Remember Me</string>
+    <string name="Login">Login</string>
+    <string name="Register">Register</string>
+    <string name="Logo">Logo</string>
+    <string name="FirstName">FirstName</string>
+    <string name="LastName">LastName</string>
+    <string name="Email">Email</string>
+    <string name="ConfirmEmailAddress">Confirm Email Address</string>
+    <string name="SignUp">Sign Up</string>
+    <string name="registrationPage">Registration Page</string>
+    <string name="service_payment">Service Payment</string>
+    <string name="service_provider">Service Providers</string>
+    <string name="add_service_provider">Add Service Provider</string>
+
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="#333"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/black_sky_logo_white"
+        />
+
+    <com.andrognito.patternlockview.PatternLockView
+        android:id="@+id/pattern_lock_view"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_width="280dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="280dp"
+        app:dotNormalSize="12dp"
+        app:dotSelectedSize="24dp"
+        app:pathWidth="4dp"
+        app:aspectRatio="square"
+        app:normalStateColor="#F1F1F1"
+        app:correctStateColor="#00B0FF"
+        app:wrongStateColor="@color/red"
+        app:dotAnimationDuration="200"
+        app:pathEndAnimationDuration="100"/>
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:layout_below="@id/pattern_lock_view"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

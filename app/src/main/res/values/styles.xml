@@ -1,0 +1,108 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccentBlue</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="TabTextTheme" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:color">@color/darkText</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:color">#F0F0F0</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="CardViewText" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_reg</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:color">#F3F3F3</item>
+        <item name="android:textSize">45sp</item>
+    </style>
+
+    <style name="FormApplication" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/TabText</item>
+        <item name="tabSelectedTextColor">@color/colorAccentBlue</item>
+        <item name="tabIndicatorColor">#333</item>
+
+    </style>
+
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <!--Here below-->
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#2979FF</item>
+    </style>
+
+    <style name="UtilityButtonText" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:color">@color/colorPrimary</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+
+
+
+
+    <style name="ButtonLogin" parent="@style/Theme.AppCompat.Light">
+        <item name="android:textColor">@color/white</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/yellow</item>
+    </style>
+
+    <style name="ButtonSignUp" parent="@style/Theme.AppCompat.Light">
+        <item name="android:textColor">@color/white</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/yellow</item>
+    </style>
+    <style name="ButtonRegister" parent="@style/Theme.AppCompat.Light">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="colorButtonNormal">@color/yellow</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+    <style name="CardView" parent="@style/Base.CardView" />
+    <style name="CardView.Dark" parent="@style/CardView">
+        <item name="cardBackgroundColor">@color/cardview_dark_background</item>
+    </style>
+    <style name="CardView.Light" parent="@style/CardView">
+        <item name="cardBackgroundColor">@color/cardview_light_background</item>
+    </style>
+    <style name="HeadTitle">
+        <item name="android:textSize">50.0dip</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:color">@color/white</item>
+    </style>
+
+    <style name="RegistrationPage">
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:editTextColor">@color/black</item>
+        <item name="android:colorControlNormal">@color/black</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+
+
+
+</resources>

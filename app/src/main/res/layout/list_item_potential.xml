@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="4">
+
+    <TextView
+        android:id="@+id/idName"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Frank Stein"
+        android:textColor="#3F3F3F"/>
+
+    <TextView
+        android:id="@+id/idPhone"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="0740114870"
+        android:textColor="#3F3F3F"/>
+
+    <TextView
+        android:id="@+id/idService"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Wedding"
+        android:textColor="#3F3F3F"/>
+
+    <TextView
+        android:id="@+id/idDate"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="11-07-2019"
+        android:textColor="#3F3F3F"/>
+
+
+</LinearLayout>
