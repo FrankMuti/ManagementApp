@@ -83,14 +83,6 @@ public class Login extends AppCompatActivity {
 
     class Authenticate {
 
-        PatternLockView.Dot dot;
-
-        List<PatternLockView.Dot> myList = new ArrayList<>();
-
-        private void setList(){
-
-        }
-
         int[][] pp = {{0, 0}, {1, 0}, {2, 0}, {2, 1}};
         int[][] ip = new int[4][2];
 

@@ -14,8 +14,6 @@ public class AttendedClientsData {
 
     public static HashMap<String, List<String>> AttendedClients = new HashMap<>();
 
-
-
     public static HashMap<String, List<String>> getData(Context context) {
 
         DatabaseHelper myDb = new DatabaseHelper(context);
