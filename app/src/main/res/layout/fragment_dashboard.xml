@@ -188,18 +188,6 @@
                             android:layout_marginRight="5dp"
                             android:background="@drawable/rounded_button"/>
 
-                        <!--<Button-->
-                            <!--android:id="@+id/dsReschedule"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:textAppearance="@style/FormApplication"-->
-                            <!--android:text="Reschedule"-->
-                            <!--android:elevation="0dp"-->
-                            <!--android:layout_marginLeft="5dp"-->
-                            <!--android:textColor="#fff"-->
-                            <!--android:background="@drawable/rounded_button"/>-->
-
                     </LinearLayout>
 
                 </LinearLayout>
