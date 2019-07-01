@@ -2,4 +2,5 @@
 <resources>
     <dimen name="smallFontSize">15sp</dimen>
     <dimen name="largeFontSize">25sp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
 </resources>

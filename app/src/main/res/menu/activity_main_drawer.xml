@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navDashboard"
+            android:title="@string/dashboard"/>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navNewClient"
+            android:title="@string/new_client"/>
+        <item
+            android:id="@+id/navClients"
+            android:title="@string/clients"/>
+        <item
+            android:id="@+id/navServiceProviders"
+            android:title="@string/service_provider"/>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navReport"
+            android:title="@string/report"/>
+    </group>
+
+
+
+</menu>

@@ -39,15 +39,15 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
 
     DatabaseHelper myDb;
 
-    Spinner           ncServiceSpinner;
-    TextInputEditText ncNameEdit;
-    TextInputEditText ncPhoneEdit;
-    TextInputEditText ncLocationEdit;
-    MaterialButton    ncDatePickerBtn;
-    TextView          ncDateTxt;
-    MaterialButton    ncTimePickerBtn;
-    TextView          ncTimeTxt;
-    MaterialButton    ncAddPotentialClientBtn;
+//    Spinner           ncServiceSpinner;
+//    TextInputEditText ncNameEdit;
+//    TextInputEditText ncPhoneEdit;
+//    TextInputEditText ncLocationEdit;
+//    MaterialButton    ncDatePickerBtn;
+//    TextView          ncDateTxt;
+//    MaterialButton    ncTimePickerBtn;
+//    TextView          ncTimeTxt;
+//    MaterialButton    ncAddPotentialClientBtn;
 
     TextInputEditText nsServiceEdit;
     TextInputEditText nsNameEdit;
@@ -58,12 +58,12 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
     TextView nsDateTxt;
     MaterialButton nsAddServiceProvider;
 
-    private String cName;
-    private String cPhone;
-    private String cLocation;
-    private String cDate;
-    private String cTime;
-    private String cService;
+//    private String cName;
+//    private String cPhone;
+//    private String cLocation;
+//    private String cDate;
+//    private String cTime;
+//    private String cService;
 
     private String nsService;
     private String nsName;
@@ -94,15 +94,15 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_clients, container, false);
 
-        ncServiceSpinner = view.findViewById(R.id.ncServiceSpinner);
-        ncNameEdit = view.findViewById(R.id.ncNameEt);
-        ncLocationEdit = view.findViewById(R.id.ncLocationEt);
-        ncPhoneEdit = view.findViewById(R.id.ncPhoneEt);
-        ncDatePickerBtn = view.findViewById(R.id.ncDatePicker);
-        ncDateTxt = view.findViewById(R.id.ncDateTxt);
-        ncTimePickerBtn = view.findViewById(R.id.ncTimePicker);
-        ncTimeTxt = view.findViewById(R.id.ncTimeTxt);
-        ncAddPotentialClientBtn = view.findViewById(R.id.ncAddPotentialClientBtn);
+//        ncServiceSpinner = view.findViewById(R.id.ncServiceSpinner);
+//        ncNameEdit = view.findViewById(R.id.ncNameEt);
+//        ncLocationEdit = view.findViewById(R.id.ncLocationEt);
+//        ncPhoneEdit = view.findViewById(R.id.ncPhoneEt);
+//        ncDatePickerBtn = view.findViewById(R.id.ncDatePicker);
+//        ncDateTxt = view.findViewById(R.id.ncDateTxt);
+//        ncTimePickerBtn = view.findViewById(R.id.ncTimePicker);
+//        ncTimeTxt = view.findViewById(R.id.ncTimeTxt);
+//        ncAddPotentialClientBtn = view.findViewById(R.id.ncAddPotentialClientBtn);
 
         nsServiceEdit = view.findViewById(R.id.nsServiceEt);
         nsNameEdit =  view.findViewById(R.id.nsNameEt);
@@ -116,12 +116,12 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
         myDb = new DatabaseHelper(getContext());
 
 
-        ncDatePickerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 datePicker(ncDateTxt);
-            }
-        });
+//        ncDatePickerBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                 datePicker(ncDateTxt);
+//            }
+//        });
 
         nsDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,19 +130,19 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
             }
         });
 
-        ncTimePickerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timePicker();
-            }
-        });
-
-        ncAddPotentialClientBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addClient();
-            }
-        });
+//        ncTimePickerBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                timePicker();
+//            }
+//        });
+//
+//        ncAddPotentialClientBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addClient();
+//            }
+//        });
 
         nsAddServiceProvider.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,19 +151,19 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
             }
         });
 
-        ncServiceSpinner.setOnItemSelectedListener(this);
-        ncServiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                cService = parent.getSelectedItem().toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                cService = "None";
-            }
-        });
-        setServiceList();
+//        ncServiceSpinner.setOnItemSelectedListener(this);
+//        ncServiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getContext(), parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+//                cService = parent.getSelectedItem().toString();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                cService = "None";
+//            }
+//        });
+       // setServiceList();
         // Define views
         return view;
     }
@@ -184,56 +184,56 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
         datePickerDialog.show();
     }
 
-    private void timePicker() {
-        //Toast.makeText(getActivity(), "Clicked ", Toast.LENGTH_LONG).show();
-        final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                String tt = hourOfDay >= 12 ? time[0] : time[1];
-                ncTimeTxt.setText(hourOfDay + ":" + minute + " " + tt);
-            }
-        }, mHour, mMinute, true);
-        timePickerDialog.show();
-    }
+//    private void timePicker() {
+//        //Toast.makeText(getActivity(), "Clicked ", Toast.LENGTH_LONG).show();
+//        final Calendar c = Calendar.getInstance();
+//        mHour = c.get(Calendar.HOUR_OF_DAY);
+//        mMinute = c.get(Calendar.MINUTE);
+//        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+//            @Override
+//            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                String tt = hourOfDay >= 12 ? time[0] : time[1];
+//                ncTimeTxt.setText(hourOfDay + ":" + minute + " " + tt);
+//            }
+//        }, mHour, mMinute, true);
+//        timePickerDialog.show();
+//    }
 
-    private void addClient() {
-        cName = ncNameEdit.getText().toString();
-        cPhone = ncPhoneEdit.getText().toString();
-        cLocation = ncLocationEdit.getText().toString();
-        cDate = ncDateTxt.getText().toString();
-        cTime = ncTimeTxt.getText().toString();
-
-        ncServiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                cService = parent.getSelectedItem().toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                cService = "None";
-            }
-        });
-
-        if (checkTextInput(cName, ncNameEdit) && checkTextInput(cPhone, ncPhoneEdit) && checkTextInput(cLocation, ncLocationEdit)
-                && checkTextInput(cDate, ncDateTxt) && checkTextInput(cTime, ncTimeTxt)){
-
-            if (TextUtils.isEmpty(cService) || "None".equals(cService)) {
-                Toast.makeText(getContext(), "Select Service", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (myDb.insertPCData(cName, cPhone, cLocation, cService, cDate, cTime)){
-                Toast.makeText(getContext(), "Client Added", Toast.LENGTH_SHORT).show();
-                clearAll();
-            }else{
-                Toast.makeText(getContext(), "Failed To add", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    private void addClient() {
+//        cName = ncNameEdit.getText().toString();
+//        cPhone = ncPhoneEdit.getText().toString();
+//        cLocation = ncLocationEdit.getText().toString();
+//        cDate = ncDateTxt.getText().toString();
+//        cTime = ncTimeTxt.getText().toString();
+//
+//        ncServiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getContext(), parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+//                cService = parent.getSelectedItem().toString();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                cService = "None";
+//            }
+//        });
+//
+//        if (checkTextInput(cName, ncNameEdit) && checkTextInput(cPhone, ncPhoneEdit) && checkTextInput(cLocation, ncLocationEdit)
+//                && checkTextInput(cDate, ncDateTxt) && checkTextInput(cTime, ncTimeTxt)){
+//
+//            if (TextUtils.isEmpty(cService) || "None".equals(cService)) {
+//                Toast.makeText(getContext(), "Select Service", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (myDb.insertPCData(cName, cPhone, cLocation, cService, cDate, cTime)){
+//                Toast.makeText(getContext(), "Client Added", Toast.LENGTH_SHORT).show();
+//                clearAll();
+//            }else{
+//                Toast.makeText(getContext(), "Failed To add", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     private void addServiceProvider() {
         nsName = getString(nsNameEdit);
@@ -247,7 +247,7 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
                 checkTextInput(nsDeposit, nsDepositEdit) && checkTextInput(nsDate, nsDateTxt)){
             if (myDb.insertSPPData(nsName, nsPhone, nsService, nsDate, nsAgreedAmount, nsDeposit)){
                 Toast.makeText(getContext(), "Service Provider Added", Toast.LENGTH_SHORT).show();
-                clearAll();
+                //clearAll();
             }else{
                 Toast.makeText(getContext(), "Failed To Add", Toast.LENGTH_LONG).show();
             }
@@ -271,48 +271,48 @@ public class New_Clients extends Fragment implements AdapterView.OnItemSelectedL
         return true;
     }
 
-    private void clearAll(){
-        ncNameEdit.setText("");
-        ncPhoneEdit.setText("");
-        ncDateTxt.setText("Pick Date");
-        ncTimeTxt.setText("Pick Time");
-        ncLocationEdit.setText("");
+//    private void clearAll(){
+//        ncNameEdit.setText("");
+//        ncPhoneEdit.setText("");
+//        ncDateTxt.setText("Pick Date");
+//        ncTimeTxt.setText("Pick Time");
+//        ncLocationEdit.setText("");
+//
+//        nsNameEdit.setText("");
+//        nsPhoneEdit.setText("");
+//        nsServiceEdit.setText("");
+//        nsAgreedEdit.setText("");
+//        nsDepositEdit.setText("");
+//        nsDateTxt.setText("Pick Date");
+//
+//
+//        cName = "";
+//        cPhone = "";
+//        cTime = "";
+//        cDate = "";
+//        cService = "";
+//
+//        nsName = "";
+//        nsDate = "";
+//        nsPhone = "";
+//        nsAgreedAmount = "";
+//        nsService = "";
+//        nsDeposit = "";
+//    }
 
-        nsNameEdit.setText("");
-        nsPhoneEdit.setText("");
-        nsServiceEdit.setText("");
-        nsAgreedEdit.setText("");
-        nsDepositEdit.setText("");
-        nsDateTxt.setText("Pick Date");
-
-
-        cName = "";
-        cPhone = "";
-        cTime = "";
-        cDate = "";
-        cService = "";
-
-        nsName = "";
-        nsDate = "";
-        nsPhone = "";
-        nsAgreedAmount = "";
-        nsService = "";
-        nsDeposit = "";
-    }
-
-
-    private void setServiceList() {
-        List<String> categories = new ArrayList<>();
-
-        for (String service : services){
-            categories.add(service);
-        }
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ncServiceSpinner.setAdapter(dataAdapter);
-
-    }
+//
+//    private void setServiceList() {
+//        List<String> categories = new ArrayList<>();
+//
+//        for (String service : services){
+//            categories.add(service);
+//        }
+//
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        ncServiceSpinner.setAdapter(dataAdapter);
+//
+//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
