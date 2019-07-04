@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorAccentBlue</item>
         <item name="colorAccent">@color/colorAccentBlue</item>
         <item name="android:fontFamily">@font/roboto_light</item>
     </style>
