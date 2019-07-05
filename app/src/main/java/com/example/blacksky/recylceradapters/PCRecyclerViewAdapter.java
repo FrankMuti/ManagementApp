@@ -1,11 +1,14 @@
 package com.example.blacksky.recylceradapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.blacksky.R;
 import com.example.blacksky.datamodels.PCDataModel;
 
@@ -14,10 +17,12 @@ import java.util.List;
 public class PCRecyclerViewAdapter extends RecyclerView.Adapter<PCRecyclerViewAdapter.PCViewHolder> {
 
     public List<PCDataModel> pc_clients;
-    public PCRecyclerViewAdapter(List<PCDataModel> pc_clients) {
-        this.pc_clients = pc_clients;
-    }
+    public Context context;
 
+    public PCRecyclerViewAdapter(List<PCDataModel> pc_clients, Context context) {
+        this.pc_clients = pc_clients;
+        this.context = context;
+    }
 
     @Override
     public PCViewHolder onCreateViewHolder( ViewGroup parent, int i) {
@@ -32,6 +37,7 @@ public class PCRecyclerViewAdapter extends RecyclerView.Adapter<PCRecyclerViewAd
         holder.name.setText(pc_client.getName());
         holder.phone.setText(pc_client.getPhone());
         holder.service.setText(pc_client.getService());
+
     }
 
     @Override
@@ -39,20 +45,18 @@ public class PCRecyclerViewAdapter extends RecyclerView.Adapter<PCRecyclerViewAd
         return pc_clients.size();
     }
 
-    public class PCViewHolder extends RecyclerView.ViewHolder{
+    class PCViewHolder extends RecyclerView.ViewHolder {
         
         private TextView name;
         private TextView phone;
         private TextView service;
         
-        public PCViewHolder(View itemView) {
+        PCViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.pc_name);
             phone = itemView.findViewById(R.id.pc_phone);
             service = itemView.findViewById(R.id.pc_service);
         }
-        
-        
     }
 }
 

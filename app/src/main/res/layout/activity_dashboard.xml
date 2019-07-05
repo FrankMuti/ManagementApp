@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:layout_margin="3dp"
+            android:background="@drawable/list_view_background"/>
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_marginStart="5dp"
+            android:layout_width="match_parent"
+            style="@style/FormApplication"
+            android:layout_height="wrap_content"
+            tools:text="Next Event" />
+
+        <include layout="@layout/next_event_layout" />
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            style="@style/FormApplication"
+            android:layout_height="wrap_content"
+            android:text="@string/upcoming_events"
+            tools:text="Upcoming Events" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ds_RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

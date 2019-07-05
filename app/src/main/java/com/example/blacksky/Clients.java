@@ -1,5 +1,7 @@
 package com.example.blacksky;
 
+import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +13,15 @@ import android.widget.Toast;
 import com.example.blacksky.R;
 import com.example.blacksky.datamodels.PCDataModel;
 import com.example.blacksky.recylceradapters.PCRecyclerViewAdapter;
+import com.example.blacksky.recylceradapters.SwipeController;
+import com.example.blacksky.recylceradapters.SwipeControllerActions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Clients extends AppCompatActivity {
-
     private PCRecyclerViewAdapter mAdapter;
+    SwipeController swipeController = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class Clients extends AppCompatActivity {
         client3.setService("Scientific Photoshoot");
         pc_clients.add(client3);
 
-        mAdapter = new PCRecyclerViewAdapter(pc_clients);
+        mAdapter = new PCRecyclerViewAdapter(pc_clients, getApplicationContext());
 
     }
 
@@ -63,13 +67,28 @@ public class Clients extends AppCompatActivity {
         pc_RecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         pc_RecyclerView.setAdapter(mAdapter);
 
-        pc_RecyclerView.setOnClickListener(new View.OnClickListener() {
+        swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
-            public void onClick(View v) {
-                String name = mAdapter.pc_clients.get(pc_RecyclerView.getChildPosition(v)).getName();
+            public void onLeftClicked(int position) {
+                String name = mAdapter.pc_clients.get(position).getName();
                 Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
             }
-        });
+            @Override
+            public void onRightClicked(int position) {
+                mAdapter.pc_clients.remove(position);
+                mAdapter.notifyItemRemoved(position);
+                mAdapter.notifyItemChanged(position, mAdapter.getItemCount());
+            }
+        }, getApplicationContext());
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(pc_RecyclerView);
+
+        pc_RecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
     }
 }

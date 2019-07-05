@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DashboardActivity"></activity>
+        <activity android:name=".ServiceProvider" />
         <activity android:name=".Clients">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,9 +28,7 @@
         <activity android:name=".ExpensePayments" />
         <activity android:name=".ConfirmedClientsActivity" />
         <activity android:name=".PotentialClientActivity" />
-        <activity android:name=".Login">
-
-        </activity>
+        <activity android:name=".Login" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
