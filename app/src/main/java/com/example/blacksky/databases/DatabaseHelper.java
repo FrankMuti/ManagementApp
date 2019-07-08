@@ -57,6 +57,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_PHONE_A = "PHONE";
     public static final String COL_AMOUNT_A = "AMOUNT";
 
+    // MY USERS
+    public static final String MS_USER = "my_users";
+    public static final String COL_ID_MU = "ID";
+    public static final String COL_NAME_MU = "NAME";
+    public static final String COL_PHONE_MU = "PHONE";
+
 
     // MY SERVICES TABLE
     public final static String SERVICES_TABLE = "services_table";
@@ -78,6 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + SERVICES_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, SERVICE TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + AC_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "NAME TEXT, PHONE TEXT, AMOUNT INTEGER)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + MS_USER + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PHONE TEXT)");
     }
 
     @Override
@@ -87,8 +94,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SPP_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SERVICES_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AC_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MS_USER);
         onCreate(db);
     }
+
 
     public boolean insertPCData(String name, String phone,String location, String service, String date, String time){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -147,6 +156,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COL_PHONE_A, phone);
         cv.put(COL_AMOUNT_A, amount);
         long result = db.insert(AC_TABLE, null, cv);
+        return result != -1;
+    }
+
+    public boolean insertMSData(String name, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_NAME_MU, name);
+        cv.put(COL_PHONE_MU, phone);
+        long result = db.insert(MS_USER, null, cv);
         return result != -1;
     }
 

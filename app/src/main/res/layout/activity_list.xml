@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     style="@android:style/Theme.DeviceDefault.Light.DarkActionBar"
-    tools:context=".ListActivity">
+   >
 
 
 

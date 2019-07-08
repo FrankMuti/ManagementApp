@@ -50,5 +50,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="menu">Menu</string>
     <string name="upcoming_events">Upcoming Events</string>
+    <string name="potential">Potential</string>
+    <string name="confirmed">Confirmed</string>
 
 </resources>

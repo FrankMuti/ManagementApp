@@ -14,11 +14,11 @@
         android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/ncToolbar"
+        android:id="@+id/cToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccentBlue"
-        app:title="@string/potential_clients"
+        app:title="@string/clients"
         app:titleTextAppearance="@style/ToolbarTitle"
         app:titleTextColor="@color/colorAccent"
         android:minHeight="?attr/actionBarSize"

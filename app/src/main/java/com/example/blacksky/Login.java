@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
             if (auth.authenticate(pattern)) {
                 mPatternLockView.clearPattern();
                 textView.setText("Correct");
-                startActivity(new Intent(Login.this, MainActivity.class));
+                startActivity(new Intent(Login.this, DashboardActivity.class));
                 finish();
             }
             else {

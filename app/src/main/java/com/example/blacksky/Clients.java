@@ -1,12 +1,18 @@
 package com.example.blacksky;
 
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,14 +28,40 @@ import java.util.List;
 public class Clients extends AppCompatActivity {
     private PCRecyclerViewAdapter mAdapter;
     SwipeController swipeController = null;
+    Toolbar toolbar;
+    FloatingActionButton fabNewClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clients);
 
+        toolbar = findViewById(R.id.cToolbar);
+        setSupportActionBar(toolbar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentBlue));
+        }
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+
+        setupFab();
         setPcClientDataAdapter();
         setupRecyclerView();
+    }
+
+    private void setupFab(){
+        fabNewClient = findViewById(R.id.fabNewClient);
+        fabNewClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), NewClient.class));
+            }
+        });
     }
 
     private void setPcClientDataAdapter() {
@@ -58,7 +90,7 @@ public class Clients extends AppCompatActivity {
         client3.setService("Scientific Photoshoot");
         pc_clients.add(client3);
 
-        mAdapter = new PCRecyclerViewAdapter(pc_clients, getApplicationContext());
+        mAdapter = new PCRecyclerViewAdapter(pc_clients,this);
 
     }
 
@@ -90,5 +122,13 @@ public class Clients extends AppCompatActivity {
                 swipeController.onDraw(c);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

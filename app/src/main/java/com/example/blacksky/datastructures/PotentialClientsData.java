@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
-import com.example.blacksky.MainActivity;
+//import com.example.blacksky.MainActivity;
 import com.example.blacksky.databases.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -14,14 +14,7 @@ import java.util.List;
 
 public class PotentialClientsData {
 
-    public static HashMap<String, List<String>> PotentialClient = new HashMap<>();
-
-   // static Context context;
-
-
-    //    this.context = context;
-
-
+    private static HashMap<String, List<String>> PotentialClient = new HashMap<>();
 
     public static HashMap<String, List<String>> getData(Context context) {
 
