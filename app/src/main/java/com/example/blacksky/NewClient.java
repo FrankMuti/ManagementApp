@@ -3,6 +3,9 @@ package com.example.blacksky;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
 import android.os.Build;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputEditText;
@@ -18,7 +21,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,14 +28,22 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.blacksky.databases.DatabaseHelper;
+import com.example.blacksky.datamodels.PCDataModel;
+import com.example.blacksky.datastructures.PotentialClientsData;
+import com.example.blacksky.properties.Properties;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class NewClient extends AppCompatActivity{
 
     DatabaseHelper myDb;
+    List<PCDataModel> pc_client;
+
+    static int TAG = 1;
 
     Toolbar toolbar;
 
@@ -57,7 +67,7 @@ public class NewClient extends AppCompatActivity{
     private String cDate;
     private String cTime;
     private String cService;
-    private String cAgreedAmoount;
+    private String cAgreedAmount;
     private String cDepositAmount;
 
     String[] time = {"PM", "AM"};
@@ -66,6 +76,16 @@ public class NewClient extends AppCompatActivity{
             "STUDIO SHOOT", "COUPLE SHOOT", "FASHION SHOOT", "PRODUCT PHOTOGRAPHY", "GRADUATION SHOOT", "BABY SHOWERS", "BRIDAL SHOWERS",
             "BRIDAL SHOWERS", "ENGAGEMENT SHOOT", "CORP AND COMMERCIAL COVERAGE", "INTERIOR/ REAL ESTATE PHOTOGRAPHY"};
 
+    String title = "";
+    String search_phone = "";
+
+    String name;
+    String phone;
+    String location;
+    String date;
+    String time_et;
+    String service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +93,7 @@ public class NewClient extends AppCompatActivity{
 
         toolbar = findViewById(R.id.ncToolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentBlue));
@@ -83,24 +104,127 @@ public class NewClient extends AppCompatActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        myDb = new DatabaseHelper(getApplicationContext());
+        try {
+            title = getIntent().getStringExtra("title");
+            name = getIntent().getStringExtra("name");
+            phone =  getIntent().getStringExtra("phone");
+            location = getIntent().getStringExtra("location");
+            date = getIntent().getStringExtra("date");
+            time_et = getIntent().getStringExtra("time");
+            service = getIntent().getStringExtra("service");
 
-        // initialize form layout
-        initialize();
-        // Setup Form Logic
+        }catch (Exception e) {
+//            e.printStackTrace();
+            Toast.makeText(this, "No Title", Toast.LENGTH_SHORT).show();
+            title = "";
+        }
+//        search_phone = getIntent().getStringExtra("phone");
+        if (title.equals(Properties.EDIT_CLIENT)) {
+            editClientView();
+            Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
+            TAG = 0;
+          }else {
+            newClientView();
+            Toast.makeText(this, "New Client", Toast.LENGTH_SHORT).show();
+            TAG = 1;
+        }
     }
 
-    private boolean saveClient(){
-        if (checkConfirmed.isChecked()){
-            savedClient();
-        }else {
-            savedPotentialClient();
-        }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//
+//        try {
+//            title = getIntent().getStringExtra("title");
+//            title = getIntent().getStringExtra("title");
+//            name = getIntent().getStringExtra("name");
+//            phone =  getIntent().getStringExtra("phone");
+//            location = getIntent().getStringExtra("location");
+//            date = getIntent().getStringExtra("date");
+//            time_et = getIntent().getStringExtra("time");
+//            service = getIntent().getStringExtra("service");
+//        }catch (Exception e) {
+////            e.printStackTrace();
+//            Toast.makeText(this, "No Title", Toast.LENGTH_SHORT).show();
+//            title = "";
+//        }
+////        search_phone = getIntent().getStringExtra("phone");
+//        if (title != null && title == "Edit Client") {
+//            editClientView();
+//            Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
+//        }else {
+//            newClientView();
+//            Toast.makeText(this, "New Client", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
+    private void editClientView(){
+        toolbar.setTitle(title);
+        myDb = new DatabaseHelper(this);
+        initialize();
+
+        String all = name.concat(phone).concat(location).concat(date).concat(time_et).concat(service);
+
+        if (all.length() > 0)
+            Toast.makeText(getApplicationContext(), all, Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
+
+
+        ncName.setText(name);
+        ncPhone.setText(phone);
+        ncLocation.setText(location);
+        ncDateText.setText(date);
+        ncTimeText.setText(time_et);
+        ncSpinner.setSelection(setSpinner(service));
+    }
+
+    private int setSpinner(String service) {
+        for (int i = 0; i < services.length; i++){
+            if (service.equals(services[i])){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private void newClientView() {
+        toolbar.setTitle("New Client");
+        myDb = new DatabaseHelper(this);
+
+        initialize();
+    }
+
+    private boolean checkIfExists(String table) {
+        Cursor res = myDb.getData(phone, table);
+        if (res.getCount() >= 1){
+            deleteUser(table);
+        }
         return true;
     }
 
-    private void savedPotentialClient() {
+    private void deleteUser(String table){
+        myDb.deleteDataByInteger(getClientID(table), table);
+    }
+
+    private String getClientID(String table){
+        Cursor res = myDb.getData(phone, table);
+        String data = null;
+        if (res.moveToNext())
+            data =  res.getString(0);
+        return data;
+    }
+
+    private boolean saveClient(){
+
+        if (checkConfirmed.isChecked()){
+            return savedClient();
+        }else {
+            return savedPotentialClient();
+        }
+    }
+
+    private boolean savedPotentialClient() {
         cName = getString(ncName);
         cPhone = getString(ncPhone);
         cLocation = getString(ncLocation);
@@ -112,44 +236,51 @@ public class NewClient extends AppCompatActivity{
                 && checkTextInput(cDate, ncDateText) && checkTextInput(cTime, ncTimeText)){
             if (TextUtils.isEmpty(cService) || "None".equals(cService)) {
                 Toast.makeText(getApplicationContext(), "Select Service", Toast.LENGTH_SHORT).show();
-                return;
+                return false;
             }
             if (myDb.insertPCData(cName, cPhone, cLocation, cService, cDate, cTime)){
                 Toast.makeText(getApplicationContext(), "Client Added", Toast.LENGTH_SHORT).show();
                 clearAll();
             }else{
                 Toast.makeText(getApplicationContext(), "Failed To add", Toast.LENGTH_SHORT).show();
+                return false;
             }
         }
 
+        return true;
+
     }
 
-    private void savedClient() {
+    private boolean savedClient() {
         cName = getString(ncName);
         cPhone = getString(ncPhone);
         cLocation = getString(ncLocation);
         cDate = getString(ncDateText);
         cTime = getString(ncTimeText);
         cService = ncSpinner.getSelectedItem().toString();
-        cAgreedAmoount = getString(ncAgreedAmount);
+        cAgreedAmount = getString(ncAgreedAmount);
         cDepositAmount = getString(ncDepositAmount);
-
+       // Toast.makeText(this, cService, Toast.LENGTH_SHORT).show();
         if (checkTextInput(cName, ncName) && checkTextInput(cPhone, ncPhone) && checkTextInput(cLocation, ncLocation)
                 && checkTextInput(cDate, ncDateText) && checkTextInput(cTime, ncTimeText)
-                && checkTextInput(cAgreedAmoount, ncAgreedAmount)
+                && checkTextInput(cAgreedAmount, ncAgreedAmount)
                 && checkTextInput(cDepositAmount, ncDepositAmount)){
-            if (TextUtils.isEmpty(cService) || "None".equals(cService)) {
+            if (TextUtils.isEmpty(cService) || "NONE".equalsIgnoreCase(cService)) {
                 Toast.makeText(getApplicationContext(), "Select Service", Toast.LENGTH_SHORT).show();
-                return;
+                return false;
             }
-            if (myDb.insertCCData(cName, cPhone, cLocation, cService, cDate, cTime, cAgreedAmoount, cDepositAmount)){
+            if (myDb.insertCCData(cName, cPhone, cLocation, cService, cDate, cTime, cAgreedAmount, cDepositAmount)){
                 Toast.makeText(getApplicationContext(), "Client Added", Toast.LENGTH_SHORT).show();
                 myDb.deleteData(cName, DatabaseHelper.PC_TABLE);
                 clearAll();
             }else{
                 Toast.makeText(getApplicationContext(), "Failed To add", Toast.LENGTH_SHORT).show();
+                return false;
             }
+            return true;
         }
+
+        return false;
     }
 
     private void initialize(){
@@ -214,7 +345,7 @@ public class NewClient extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 cService = parent.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getApplicationContext(), parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -226,25 +357,26 @@ public class NewClient extends AppCompatActivity{
 
     private void setServiceSpinnerList() {
         List<String> categories = new ArrayList<>();
-        for (String service : services) {
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, categories);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            ncSpinner.setAdapter(dataAdapter);
-        }
+        Collections.addAll(categories, services);
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ncSpinner.setAdapter(dataAdapter);
     }
 
     private void initSpinner() {
-        ncSpinner.setPrompt("Category");
+       // ncSpinner.setPrompt("Category");
     }
 
+    int mYear, mMonth, mDay;
     private void datePicker(final TextView tx) {
         //Toast.makeText(getActivity(), "Clicked ", Toast.LENGTH_LONG).show();
         final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getApplicationContext(), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(NewClient.this, new DatePickerDialog.OnDateSetListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -254,12 +386,14 @@ public class NewClient extends AppCompatActivity{
         datePickerDialog.show();
     }
 
+    int mHour;
+    int mMinute;
     private void timePicker(final TextView tx) {
         //Toast.makeText(getActivity(), "Clicked ", Toast.LENGTH_LONG).show();
         final Calendar c = Calendar.getInstance();
-        int mHour = c.get(Calendar.HOUR_OF_DAY);
-        int mMinute = c.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(NewClient.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String tt = hourOfDay >= 12 ? time[0] : time[1];
@@ -270,13 +404,15 @@ public class NewClient extends AppCompatActivity{
         timePickerDialog.show();
     }
 
+
+    @SuppressLint("SetTextI18n")
     private void clearAll() {
         ncName.setText("");
         ncPhone.setText("");
         ncDateText.setText("Pick Date");
         ncTimeText.setText("Pick Time");
         ncLocation.setText("");
-        cName = cPhone = cDate = cTime = cLocation = cAgreedAmoount = cDepositAmount = "";
+        cName = cPhone = cDate = cTime = cLocation = cAgreedAmount = cDepositAmount = "";
     }
 
     private boolean checkTextInput(String data, TextInputEditText editText){
@@ -295,6 +431,14 @@ public class NewClient extends AppCompatActivity{
         return true;
     }
 
+    private void checkWhichDBUpdated(){
+       // if (cAgreedAmount.length() == 0) {
+            checkIfExists(DatabaseHelper.CC_TABLE);
+       // }else {
+            checkIfExists(DatabaseHelper.PC_TABLE);
+       // }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
@@ -302,7 +446,9 @@ public class NewClient extends AppCompatActivity{
         }else if (item.getItemId() == R.id.action_add_new_client){
             if (saveClient()){
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                checkWhichDBUpdated();
                 finish();
+                startActivity(new Intent(this, DashboardActivity.class));
             }else {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
             }
@@ -321,7 +467,7 @@ public class NewClient extends AppCompatActivity{
     }
 
     private String getString(TextInputEditText tx) {
-        return  tx.getText().toString();
+        return  Objects.requireNonNull(tx.getText()).toString();
     }
 }
 

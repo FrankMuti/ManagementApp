@@ -6,12 +6,14 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navDashboard"
-            android:title="@string/dashboard"/>
+            android:title="@string/dashboard"
+            />
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navNewClient"
+            
             android:title="@string/new_client"/>
         <item
             android:id="@+id/navClients"

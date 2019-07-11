@@ -189,9 +189,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
-    public Integer deleteData(String name, String table){
+    public Integer deleteData(String phone, String table){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(table, "NAME = ?", new String[] {name});
+        return db.delete(table, "PHONE = ?", new String[] {phone});
+    }
+
+    public Integer deleteDataByInteger(String id, String table) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(table, "ID = ? ", new String[] {id});
     }
 
 }

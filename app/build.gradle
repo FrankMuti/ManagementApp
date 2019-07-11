@@ -16,6 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -29,6 +34,10 @@ dependencies {
 
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
+
+  //  implementation 'com.applandeo:material-calendar-view:1.6.0'
+    //implementation 'com.github.marcohc:robotocalendarview:3.6.1'
+    //implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
 
    // implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'

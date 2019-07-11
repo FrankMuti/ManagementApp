@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.blacksky.R;
 import com.example.blacksky.datamodels.PCDataModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PCRecyclerViewAdapter extends RecyclerView.Adapter<PCRecyclerViewAdapter.PCViewHolder> {
@@ -37,7 +38,6 @@ public class PCRecyclerViewAdapter extends RecyclerView.Adapter<PCRecyclerViewAd
         holder.name.setText(pc_client.getName());
         holder.phone.setText(pc_client.getPhone());
         holder.service.setText(pc_client.getService());
-
     }
 
     @Override

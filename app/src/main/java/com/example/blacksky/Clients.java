@@ -17,7 +17,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.blacksky.R;
+import com.example.blacksky.databases.DatabaseHelper;
+import com.example.blacksky.datamodels.CCDataModel;
 import com.example.blacksky.datamodels.PCDataModel;
+import com.example.blacksky.datastructures.ConfirmedClientsData;
+import com.example.blacksky.datastructures.PotentialClientsData;
+import com.example.blacksky.properties.Properties;
 import com.example.blacksky.recylceradapters.PCRecyclerViewAdapter;
 import com.example.blacksky.recylceradapters.SwipeController;
 import com.example.blacksky.recylceradapters.SwipeControllerActions;
@@ -26,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Clients extends AppCompatActivity {
+
+    DatabaseHelper myDb;
+
     private PCRecyclerViewAdapter mAdapter;
     SwipeController swipeController = null;
     Toolbar toolbar;
@@ -65,32 +73,13 @@ public class Clients extends AppCompatActivity {
     }
 
     private void setPcClientDataAdapter() {
-        List<PCDataModel> pc_clients = new ArrayList<>();
-        PCDataModel client = new PCDataModel();
-        client.setName("Albert Einstein");
-        client.setPhone("0711142832");
-        client.setService("Scientific Photoshoot");
-        pc_clients.add(client);
-
-        PCDataModel client1 = new PCDataModel();
-        client1.setName("Sir Isaac Newton");
-        client1.setPhone("0711142832");
-        client1.setService("Scientific Photoshoot");
-        pc_clients.add(client1);
-
-        PCDataModel client2 = new PCDataModel();
-        client2.setName("Thomas Edison");
-        client2.setPhone("0711142832");
-        client2.setService("Scientific Photoshoot");
-        pc_clients.add(client2);
-
-        PCDataModel client3 = new PCDataModel();
-        client3.setName("Nikola Tesla");
-        client3.setPhone("0711142832");
-        client3.setService("Scientific Photoshoot");
-        pc_clients.add(client3);
-
+        List<PCDataModel> pc_clients = PotentialClientsData.getPc_clients(this);
         mAdapter = new PCRecyclerViewAdapter(pc_clients,this);
+    }
+
+    private void setCcClientDataAdapter() {
+        List<CCDataModel> cc_clients = ConfirmedClientsData.getCC_clients(this);
+       // mAdapter = new PCRecyclerViewAdapter(cc_clients, this);
 
     }
 
@@ -102,8 +91,26 @@ public class Clients extends AppCompatActivity {
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onLeftClicked(int position) {
-                String name = mAdapter.pc_clients.get(position).getName();
-                Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                String title = Properties.EDIT_CLIENT;
+                String phone = mAdapter.pc_clients.get(position).getPhone();
+                String name  = mAdapter.pc_clients.get(position).getName();
+                String location = mAdapter.pc_clients.get(position).getLocation();
+                String date = mAdapter.pc_clients.get(position).getDate();
+                String time = mAdapter.pc_clients.get(position).getTime();
+                String service = mAdapter.pc_clients.get(position).getService();
+
+
+                Intent intent = new Intent(getApplicationContext(), NewClient.class);
+                intent.putExtra("title", title);
+                intent.putExtra("name", name);
+                intent.putExtra("phone", phone);
+                intent.putExtra("location", location);
+                intent.putExtra("date", date);
+                intent.putExtra("time", time);
+                intent.putExtra("service", service);
+                intent.putExtra("potential_client", Properties.POTENTIAL_CLIENT);
+                startActivity(intent);
+
             }
             @Override
             public void onRightClicked(int position) {

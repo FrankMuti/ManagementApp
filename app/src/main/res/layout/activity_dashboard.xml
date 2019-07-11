@@ -28,7 +28,10 @@
             app:titleTextColor="@color/colorAccent"
             app:titleTextAppearance="@style/ToolbarTitle"/>
 
+
+
         <CalendarView
+            android:id="@+id/ds_calendar"
             android:layout_width="match_parent"
             android:layout_height="270dp"
             android:layout_margin="3dp"

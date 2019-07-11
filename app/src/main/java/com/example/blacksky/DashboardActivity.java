@@ -1,5 +1,6 @@
 package com.example.blacksky;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,32 +16,26 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageButton;
+import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.blacksky.datamodels.DSDataModel;
-import com.example.blacksky.datamodels.DSDataModel;
 import com.example.blacksky.datastructures.ConfirmedClientsData;
 import com.example.blacksky.recylceradapters.DSRecyclerViewAdapter;
-import com.example.blacksky.recylceradapters.SwipeController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-
+//import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DSRecyclerViewAdapter mAdapter;
-    //SwipeController swipeController = null;
+   // private DSRecyclerViewAdapter mAdapter;
 
-    // Dashboard View Items
     Toolbar toolbar;
 
-    // navigation view
-    ImageButton navDrawerButton;
+ //   static DSRecyclerViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +57,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         setupNavigationView();
         setUpComingEventsDataAdapter();
         setNextEvent();
-        setupRecyclerView();
+
+        setCalendarView();
+       // robotoCalendarTrial();
     }
 
     private void setupNavigationView(){
@@ -81,48 +78,43 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     }
 
     private void setUpComingEventsDataAdapter() {
-        List<DSDataModel> up_events = new ArrayList<>();//ConfirmedClientsData.getUp_events(this);
-       // List<DSDataModel> up_events = new ArrayList<>();
-        DSDataModel client = new DSDataModel();
-        
-        client.setName("Albert Einstein");
-        client.setPhone("0711142832");
-        client.setService("Scientific Photoshoot");
-        up_events.add(client);
+        DSRecyclerViewAdapter mAdapter = null;
+        List<DSDataModel> up_events = ConfirmedClientsData.getUp_events(this);//ConfirmedClientsData.getUp_events(this);
 
-        DSDataModel client1 = new DSDataModel();
-        client1.setName("Sir Isaac Newton");
-        client1.setPhone("0711142832");
-        client1.setService("Scientific Photoshoot");
-        up_events.add(client1);
-
-        DSDataModel client2 = new DSDataModel();
-        client2.setName("Thomas Edison");
-        client2.setPhone("0711142832");
-        client2.setService("Scientific Photoshoot");
-        up_events.add(client2);
-
-        DSDataModel client3 = new DSDataModel();
-        client3.setName("Nikola Tesla");
-        client3.setPhone("0711142832");
-        client3.setService("Scientific Photoshoot");
-        up_events.add(client3);
-        
-        
         if (up_events.size() != 0) {
            // setNextEvent();
             up_events.remove(0);
             mAdapter = new DSRecyclerViewAdapter(up_events, this);
         }
+        setupRecyclerView(mAdapter);
     }
 
-    private void setupRecyclerView() {
-        RecyclerView ds_recylcerView = findViewById(R.id.ds_RecyclerView);
-        ds_recylcerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        ds_recylcerView.setAdapter(mAdapter);
+    private void setupRecyclerView(DSRecyclerViewAdapter mAdapter) {
+       // mAdapter = null;
+
+        RecyclerView ds_recyclerView = findViewById(R.id.ds_RecyclerView);
+        ds_recyclerView.setAdapter(null);
+        ds_recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        ds_recyclerView.setAdapter(mAdapter);
+    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//       // setUpComingEventsDataAdapter();
+//        setupRecyclerView();
+//        setNextEvent();
+//    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setUpComingEventsDataAdapter();
+     //   setupRecyclerView();
+        setNextEvent();
     }
 
-    private void setNextEvent(){
+    @SuppressLint("SetTextI18n")
+    private void setNextEvent( ){
 
         TextView name = findViewById(R.id.next_name);
         TextView phone = findViewById(R.id.next_phone);
@@ -130,31 +122,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         TextView date = findViewById(R.id.next_date);
         TextView service = findViewById(R.id.next_service);
 
-        //List<DSDataModel> up_events = ConfirmedClientsData.getUp_events(this);
-        List<DSDataModel> up_events = new ArrayList<>();
-        DSDataModel client = new DSDataModel();
-        client.setName("Albert Einstein");
-        client.setPhone("0711142832");
-        client.setService("Scientific Photoshoot");
-        up_events.add(client);
-
-        DSDataModel client1 = new DSDataModel();
-        client1.setName("Sir Isaac Newton");
-        client1.setPhone("0711142832");
-        client1.setService("Scientific Photoshoot");
-        up_events.add(client1);
-
-        DSDataModel client2 = new DSDataModel();
-        client2.setName("Thomas Edison");
-        client2.setPhone("0711142832");
-        client2.setService("Scientific Photoshoot");
-        up_events.add(client2);
-
-        DSDataModel client3 = new DSDataModel();
-        client3.setName("Nikola Tesla");
-        client3.setPhone("0711142832");
-        client3.setService("Scientific Photoshoot");
-        up_events.add(client3);
+        List<DSDataModel> up_events = ConfirmedClientsData.getUp_events(this);
 
         if (up_events.size() == 0){
             name.setText("No Client");
@@ -173,7 +141,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     }
 
     private void setCalendarView(){
-        //Color upComing = ContextCompat.getColor(this, R.color.green);
+        CalendarView calendarView = findViewById(R.id.ds_calendar);
+        calendarView.getDate();
     }
 
     @Override
@@ -207,31 +176,5 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         return true;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
