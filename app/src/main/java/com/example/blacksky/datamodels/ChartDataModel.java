@@ -23,6 +23,7 @@ public class ChartDataModel {
 
     public void setTotalEarnings() {
         totalEarnings = myDb.getTotalEarnings();
+        totalEarnings += myDb.getTotalServiceFromAttended();
     }
 
     public int getTotalEarnings() {
@@ -30,7 +31,7 @@ public class ChartDataModel {
         return totalEarnings;
     }
 
-    public void setTotalSpending() {
+    private void setTotalSpending() {
         totalSpending = myDb.getTotalServicePaid();
     }
 
@@ -40,7 +41,10 @@ public class ChartDataModel {
     }
 
     private int setJobEarning(String job){
-        return myDb.getTotalEarnings(job);
+        int a = myDb.getTotalEarnings(job);
+        int b = myDb.getTotalEarningAtt(job);
+
+        return  a + b;
     }
 
     public List<Integer> getJobEarnings() {

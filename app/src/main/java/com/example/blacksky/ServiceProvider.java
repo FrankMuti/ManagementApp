@@ -63,7 +63,7 @@ public class ServiceProvider extends AppCompatActivity {
         fabNewClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { // Edit here {change NewClient to NewServiceProvider}
-                startActivity(new Intent(getApplicationContext(), NewClient.class));
+                startActivity(new Intent(getApplicationContext(), NewServiceProvider.class));
             }
         });
     }
@@ -140,6 +140,7 @@ public class ServiceProvider extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
             finish();
+            startActivity(new Intent(this, DashboardActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

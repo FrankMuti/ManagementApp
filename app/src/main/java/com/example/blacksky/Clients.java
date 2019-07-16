@@ -144,6 +144,7 @@ public class Clients extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
             finish();
+            startActivity(new Intent(this, DashboardActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

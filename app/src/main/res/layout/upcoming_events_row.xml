@@ -89,16 +89,6 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/up_Options"
-            android:contentDescription="@string/menu"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:layout_weight="1"
-            android:scaleType="center"
-            android:src="@drawable/icons8_menu_2_32px"/>
-
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.blacksky;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,12 +13,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +36,8 @@ import com.example.blacksky.recylceradapters.SwipeController;
 import com.example.blacksky.recylceradapters.SwipeControllerActions;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +53,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     DatabaseHelper myDb;
     Toolbar toolbar;
     SwipeController swipeController = null;
+    CompactCalendarView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +70,17 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         toolbar.setTitleTextColor(Color.parseColor("#f3f3f3"));
         setSupportActionBar(toolbar);
 
+        calendarView = findViewById(R.id.calendarView);
+
+        ImageButton button = findViewById(R.id.nextOptions);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPopUpMenu(button);
+            }
+        });
+
+
         myDb = new DatabaseHelper(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -72,6 +92,28 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         setUpComingEventsDataAdapter();
         setNextEvent();
         setCalendarView();
+    }
+
+    private void setPopUpMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(DashboardActivity.this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_next_event, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.attendEvent:
+                        attendEvent();
+                       // Toast.makeText(getApplicationContext(), "Attended Event", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.cancelEvent:
+                        deleteEvent();
+                        Toast.makeText(getApplicationContext(), "Cancel Event", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 
     private void setupNavigationView(){
@@ -133,17 +175,40 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 startActivity(intent);
             }
 
+            boolean del;
             @Override
             public void onRightClicked(int position) {
                 String name = mAdapter.up_events.get(position).getName();
                 String phone = mAdapter.up_events.get(position).getPhone();
                 Toast.makeText(getApplicationContext(),"Deleting "+ name, Toast.LENGTH_SHORT).show();
-                try{
-                    if (myDb.deleteData(phone, DatabaseHelper.CC_TABLE) > 0) {
-                        mAdapter.up_events.remove(position);
-                        mAdapter.notifyItemRemoved(position);
-                        mAdapter.notifyItemChanged(position, mAdapter.getItemCount());
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setCancelable(false);
+                builder.setTitle("Delete");
+                builder.setMessage("Are you sure you want to delete");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Deleted " + name, Toast.LENGTH_SHORT).show();
+                        del = true;
                     }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Not Deleted", Toast.LENGTH_SHORT).show();
+                        del = false;
+                    }
+                });
+
+                try{
+                    if (del)
+                        if (myDb.deleteData(phone, DatabaseHelper.CC_TABLE) > 0) {
+                            mAdapter.up_events.remove(position);
+                            mAdapter.notifyItemRemoved(position);
+                            mAdapter.notifyItemChanged(position, mAdapter.getItemCount());
+                        }
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
                 }
@@ -166,6 +231,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         setUpComingEventsDataAdapter();
      //   setupRecyclerView();
         setNextEvent();
+        setCalendarView();
     }
 
     @Override
@@ -204,32 +270,38 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     }
 
 
+    private void deleteEvent() {
+        TextView phone = findViewById(R.id.next_phone);
+
+        myDb.deleteData(phone.getText().toString(), DatabaseHelper.CC_TABLE);
+        setNextEvent();
+        setUpComingEventsDataAdapter();
+        setCalendarView();
+    }
+
+    private void attendEvent() {
+        TextView phone = findViewById(R.id.next_phone);
+        List<DSDataModel> events = ConfirmedClientsData.getUp_events(this);
+        if (myDb.insertACData(
+                events.get(0).getName(),
+                events.get(0).getPhone(),
+                events.get(0).getService(),
+                events.get(0).getAgreedAmount()
+        )){
+
+            deleteEvent();
+            Toast.makeText(this, "Attended", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Failed To Update", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void setCalendarView() {
 
         List<DSDataModel> up_events = ConfirmedClientsData.getUp_events(this);
         List<Long> longDates = ConfirmedClientsData.getDates(up_events);
 
-        final CompactCalendarView calendarView = findViewById(R.id.calendarView);
-        // Set the first day of the week to Monday, defaults to Monday so calling
-        // setFirstDayOfWeek is not necessary
-        // use constants provided by Java Calendar class
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
-        // Add event 1 on 19 Jul 2015
-
-        String date1 = "2019/07/22 13:00:45";
-        // LocalDateTime ldt = LocalDateTime.parse(date1, DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = null;
-        try {
-            date = sdf.parse(date1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        assert date != null;
-        long millis = date.getTime();
-        Event ev1 = new Event(Color.GREEN, millis, "Event One");
-
-        calendarView.addEvent(ev1);
 
         List<Event> event_dates = new ArrayList<>();
         for(int i = 0; i < longDates.size(); i++) {
@@ -237,16 +309,17 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             event_dates.add(event);
         }
 
+        calendarView.removeAllEvents();
+
         for (int i = 0; i < event_dates.size(); i++) {
             calendarView.addEvent(event_dates.get(i));
         }
 
-        // List<Event> events = calendarView.getEvents(millis);
 
         calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                List<Event> events = calendarView.getEvents(dateClicked);
+                //List<Event> events = calendarView.getEvents(dateClicked);
             }
 
             @Override
@@ -283,6 +356,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             case R.id.navNewServiceProvider:
                 startActivity(new Intent(this, NewServiceProvider.class));
                 Toast.makeText(this, "New Service Provider", Toast.LENGTH_SHORT).show();
+            case R.id.navAttendedClients:
+                startActivity(new Intent(this, AttendedClients.class));
+                Toast.makeText(this, "Attended Clients", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);

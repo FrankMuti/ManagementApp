@@ -53,7 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_ID_A = "ID";
     public static final String COL_NAME_A = "NAME";
     public static final String COL_PHONE_A = "PHONE";
+    public static final String COL_SERVICE_A = "SERVICE";
     public static final String COL_AMOUNT_A = "AMOUNT";
+
 
     // MY USERS
     public static final String MS_USER = "my_users";
@@ -81,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "NAME TEXT, PHONE TEXT, SERVICE TEXT, LOCKED_DATE TEXT ,AGREED_AMOUNT INTEGER, DEPOSIT INTEGER, BALANCE INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + SERVICES_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, SERVICE TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + AC_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "NAME TEXT, PHONE TEXT, AMOUNT INTEGER)");
+                "NAME TEXT, PHONE TEXT, SERVICE TEXT ,AMOUNT INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + MS_USER + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PHONE TEXT)");
     }
 
@@ -95,7 +97,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + MS_USER);
         onCreate(db);
     }
-
 
     public boolean insertPCData(String name, String phone,String location, String service, String date, String time){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -147,11 +148,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean insertACData(String name, String phone, String amount) {
+    public boolean insertACData(String name, String phone,String service ,String amount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COL_NAME_A, name);
         cv.put(COL_PHONE_A, phone);
+        cv.put(COL_SERVICE_A, service);
         cv.put(COL_AMOUNT_A, amount);
         long result = db.insert(AC_TABLE, null, cv);
         return result != -1;
@@ -213,10 +215,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public int getTotalServiceFromAttended() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT SUM("+COL_AMOUNT_A+") FROM " + AC_TABLE;
+        Cursor cs = db.rawQuery(query, null);
+        if (cs.moveToFirst()) {
+            return cs.getInt(0);
+        }
+        return 0;
+    }
 
     public int getTotalServicePaid() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT SUM("+COL_DEPOSIT_SP+") FROM " + SPP_TABLE;
+        Cursor cs = db.rawQuery(query, null);
+        if (cs.moveToFirst()) {
+            return cs.getInt(0);
+        }
+        return 0;
+    }
+
+    public int getTotalEarningAtt(String service){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT SUM("+COL_AMOUNT_A+") FROM " + AC_TABLE + " WHERE SERVICE = '" + service +"'";
         Cursor cs = db.rawQuery(query, null);
         if (cs.moveToFirst()) {
             return cs.getInt(0);
@@ -231,7 +252,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cs.moveToFirst()) {
             return cs.getInt(0);
         }
-        return 10;
+        return 0;
     }
 
 

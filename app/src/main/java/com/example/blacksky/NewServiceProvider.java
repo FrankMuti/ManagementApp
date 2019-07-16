@@ -2,7 +2,6 @@ package com.example.blacksky;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
@@ -15,10 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.blacksky.databases.DatabaseHelper;
@@ -31,7 +28,7 @@ public class NewServiceProvider extends AppCompatActivity{
 
     DatabaseHelper myDb;
 
-    static int TAG = 1;
+    static int classtag = 1;
 
     Toolbar toolbar;
 
@@ -96,17 +93,17 @@ public class NewServiceProvider extends AppCompatActivity{
         if (title == null) {
             newSPView();
             Toast.makeText(this, "New Service Provider", Toast.LENGTH_SHORT).show();
-            TAG = 1;
+            classtag = 1;
         }else if (title.equals(Properties.EDIT_SP)) {
             editSPView();
            // toolbar.setTitle(Properties.EDIT_SP);
             Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
-            TAG = 0;
+            classtag = 0;
         }
         else {
             newSPView();
             Toast.makeText(this, "New Service Provider", Toast.LENGTH_SHORT).show();
-            TAG = 1;
+            classtag = 1;
         }
     }
 
@@ -151,7 +148,7 @@ public class NewServiceProvider extends AppCompatActivity{
 
     private boolean saveClient(){
         checkWhichDBUpdated();
-        if (TAG == 1){
+        if (classtag == 1){
             return savedClient();
         }else {
             return savedPotentialClient();

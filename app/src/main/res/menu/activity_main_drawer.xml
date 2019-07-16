@@ -15,30 +15,37 @@
         <item
             android:id="@+id/navNewClient"
             android:title="@string/new_client"
+            android:checkable="false"
             android:icon="@drawable/ic_add_client"/>
         <item
             android:id="@+id/navClients"
             android:title="@string/clients"
+            android:checkable="false"
             android:icon="@drawable/ic_clients"/>
         <item
             android:id="@+id/navNewServiceProvider"
+            android:visible="false"
             android:title="@string/new_service_provider"
+            android:checkable="false"
             android:icon="@drawable/ic_add_client"/>
         <item
             android:id="@+id/navServiceProviders"
             android:title="@string/service_provider"
+            android:checkable="false"
             android:icon="@drawable/ic_services"/>
-    </group>
 
-    <group android:checkableBehavior="single">
         <item
             android:id="@+id/navReport"
             android:title="@string/report"
-            android:iconTint="#333"
-            android:icon="@drawable/icons8_ledger_100px"
-            tools:targetApi="o" />
+            android:checkable="false"
+            android:icon="@drawable/icons8_ledger_100px" />
+
+        <item
+            android:id="@+id/navAttendedClients"
+            android:title="@string/attended"
+            android:checkable="false"
+            android:icon="@drawable/ic_group_black_24dp" />
+
     </group>
-
-
 
 </menu>

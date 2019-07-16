@@ -55,5 +55,8 @@
     <string name="new_service_provider">New Service Provider</string>
     <string name="name">Name</string>
     <string name="service_earnings">Service Earnings</string>
+    <string name="save_to_excel">Generate Excel</string>
+    <string name="cancel">Cancel</string>
+    <string name="attended">Attended</string>
 
 </resources>

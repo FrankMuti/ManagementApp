@@ -444,6 +444,7 @@ public class NewClient extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
             finish();
+            startActivity(new Intent(this, DashboardActivity.class));
         }else if (item.getItemId() == R.id.action_add_new_client){
             if (saveClient()){
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();

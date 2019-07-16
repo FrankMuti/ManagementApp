@@ -91,9 +91,10 @@
         <ImageButton
             android:id="@+id/nextOptions"
             android:contentDescription="@string/menu"
-            android:layout_width="0dp"
+            android:layout_margin="1dp"
+            android:layout_width="5dp"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
+            android:background="#FFFFFF"
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/icons8_menu_2_32px"/>
