@@ -1,23 +1,22 @@
 package com.example.blacksky.recylceradapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.blacksky.R;
-import com.example.blacksky.datamodels.ServiceProvidersDataModel;
+import com.example.blacksky.datamodels.SPDataModel;
 
 import java.util.List;
 
 public class SPRecyclerViewAdapter extends RecyclerView.Adapter<SPRecyclerViewAdapter.SPViewHolder> {
 
-    public List<ServiceProvidersDataModel> sp_providers;
+    public List<SPDataModel> sp_providers;
     public Context context;
 
-    public SPRecyclerViewAdapter(List<ServiceProvidersDataModel> sp_providers, Context context) {
+    public SPRecyclerViewAdapter(List<SPDataModel> sp_providers, Context context) {
         this.sp_providers = sp_providers;
         this.context = context;
     }
@@ -32,7 +31,7 @@ public class SPRecyclerViewAdapter extends RecyclerView.Adapter<SPRecyclerViewAd
 
     @Override
     public void onBindViewHolder( SPViewHolder holder, int position) {
-        ServiceProvidersDataModel sp_provider = sp_providers.get(position);
+        SPDataModel sp_provider = sp_providers.get(position);
         holder.name.setText(sp_provider.getName());
         holder.phone.setText(sp_provider.getPhone());
         holder.service.setText(sp_provider.getService());

@@ -32,6 +32,8 @@ import com.example.blacksky.datamodels.PCDataModel;
 import com.example.blacksky.datastructures.PotentialClientsData;
 import com.example.blacksky.properties.Properties;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -76,7 +78,7 @@ public class NewClient extends AppCompatActivity{
             "STUDIO SHOOT", "COUPLE SHOOT", "FASHION SHOOT", "PRODUCT PHOTOGRAPHY", "GRADUATION SHOOT", "BABY SHOWERS", "BRIDAL SHOWERS",
             "BRIDAL SHOWERS", "ENGAGEMENT SHOOT", "CORP AND COMMERCIAL COVERAGE", "INTERIOR/ REAL ESTATE PHOTOGRAPHY"};
 
-    String title = "";
+    String title = "NULL";
     String search_phone = "";
 
     String name;
@@ -85,6 +87,8 @@ public class NewClient extends AppCompatActivity{
     String date;
     String time_et;
     String service;
+    String agreed;
+    String deposit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,8 @@ public class NewClient extends AppCompatActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        initialize();
+
         try {
             title = getIntent().getStringExtra("title");
             name = getIntent().getStringExtra("name");
@@ -113,63 +119,57 @@ public class NewClient extends AppCompatActivity{
             time_et = getIntent().getStringExtra("time");
             service = getIntent().getStringExtra("service");
 
+            try{
+                agreed = getIntent().getStringExtra("agreed");
+                deposit = getIntent().getStringExtra("deposit");
+            }catch (Exception e){
+                Toast.makeText(this, "Not Found", Toast.LENGTH_SHORT).show();
+            }
+
         }catch (Exception e) {
 //            e.printStackTrace();
             Toast.makeText(this, "No Title", Toast.LENGTH_SHORT).show();
-            title = "";
+            title = "NULL";
+        }
+
+        if (title == "NULL" || title == null) {
+            title = "NULL";
         }
 //        search_phone = getIntent().getStringExtra("phone");
-        if (title.equals(Properties.EDIT_CLIENT)) {
+        if (title == null || title.equals("NULL")) {
+            newClientView();
+            Toast.makeText(this, "New Client", Toast.LENGTH_SHORT).show();
+            TAG = 1;
+        }else if (title.equals(Properties.EDIT_CLIENT) || title.equals(Properties.CONFIRMED_CLIENT)) {
             editClientView();
             Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
             TAG = 0;
-          }else {
+        }
+        else {
             newClientView();
             Toast.makeText(this, "New Client", Toast.LENGTH_SHORT).show();
             TAG = 1;
         }
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//
-//        try {
-//            title = getIntent().getStringExtra("title");
-//            title = getIntent().getStringExtra("title");
-//            name = getIntent().getStringExtra("name");
-//            phone =  getIntent().getStringExtra("phone");
-//            location = getIntent().getStringExtra("location");
-//            date = getIntent().getStringExtra("date");
-//            time_et = getIntent().getStringExtra("time");
-//            service = getIntent().getStringExtra("service");
-//        }catch (Exception e) {
-////            e.printStackTrace();
-//            Toast.makeText(this, "No Title", Toast.LENGTH_SHORT).show();
-//            title = "";
-//        }
-////        search_phone = getIntent().getStringExtra("phone");
-//        if (title != null && title == "Edit Client") {
-//            editClientView();
-//            Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
-//        }else {
-//            newClientView();
-//            Toast.makeText(this, "New Client", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
     private void editClientView(){
         toolbar.setTitle(title);
         myDb = new DatabaseHelper(this);
-        initialize();
+       // initialize();
 
-        String all = name.concat(phone).concat(location).concat(date).concat(time_et).concat(service);
+//        String all = name.concat(phone).concat(location).concat(date).concat(time_et).concat(service);
+//
+//        if (all.length() > 0)
+//            Toast.makeText(getApplicationContext(), all, Toast.LENGTH_SHORT).show();
+//        else
+//            Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
 
-        if (all.length() > 0)
-            Toast.makeText(getApplicationContext(), all, Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
-
+        if (title.equals(Properties.CONFIRMED_CLIENT)){
+            checkConfirmed.setChecked(true);
+            check();
+            ncAgreedAmount.setText(agreed);
+            ncDepositAmount.setText(deposit);
+        }
 
         ncName.setText(name);
         ncPhone.setText(phone);
@@ -179,6 +179,7 @@ public class NewClient extends AppCompatActivity{
         ncSpinner.setSelection(setSpinner(service));
     }
 
+    @Contract(pure = true)
     private int setSpinner(String service) {
         for (int i = 0; i < services.length; i++){
             if (service.equals(services[i])){
@@ -192,7 +193,7 @@ public class NewClient extends AppCompatActivity{
         toolbar.setTitle("New Client");
         myDb = new DatabaseHelper(this);
 
-        initialize();
+
     }
 
     private boolean checkIfExists(String table) {
@@ -216,7 +217,7 @@ public class NewClient extends AppCompatActivity{
     }
 
     private boolean saveClient(){
-
+        checkWhichDBUpdated();
         if (checkConfirmed.isChecked()){
             return savedClient();
         }else {
@@ -380,7 +381,7 @@ public class NewClient extends AppCompatActivity{
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                tx.setText(dayOfMonth + " " + months[month] + ", " + year);
+                tx.setText(dayOfMonth + "-" + months[month] + "-" + year);
             }
         }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -446,9 +447,13 @@ public class NewClient extends AppCompatActivity{
         }else if (item.getItemId() == R.id.action_add_new_client){
             if (saveClient()){
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-                checkWhichDBUpdated();
                 finish();
-                startActivity(new Intent(this, DashboardActivity.class));
+                if (title.equals(Properties.POTENTIAL_CLIENT))
+                    startActivity(new Intent(this, Clients.class));
+                else if (title.equals(Properties.CONFIRMED_CLIENT))
+                    startActivity(new Intent(this, DashboardActivity.class));
+                else
+                    startActivity(new Intent(this, Clients.class));
             }else {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
             }

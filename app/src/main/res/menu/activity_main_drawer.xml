@@ -7,26 +7,36 @@
         <item
             android:id="@+id/navDashboard"
             android:title="@string/dashboard"
+            android:icon="@drawable/ic_home_black_24dp"
             />
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navNewClient"
-            
-            android:title="@string/new_client"/>
+            android:title="@string/new_client"
+            android:icon="@drawable/ic_add_client"/>
         <item
             android:id="@+id/navClients"
-            android:title="@string/clients"/>
+            android:title="@string/clients"
+            android:icon="@drawable/ic_clients"/>
+        <item
+            android:id="@+id/navNewServiceProvider"
+            android:title="@string/new_service_provider"
+            android:icon="@drawable/ic_add_client"/>
         <item
             android:id="@+id/navServiceProviders"
-            android:title="@string/service_provider"/>
+            android:title="@string/service_provider"
+            android:icon="@drawable/ic_services"/>
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navReport"
-            android:title="@string/report"/>
+            android:title="@string/report"
+            android:iconTint="#333"
+            android:icon="@drawable/icons8_ledger_100px"
+            tools:targetApi="o" />
     </group>
 
 

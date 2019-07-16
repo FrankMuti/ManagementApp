@@ -1,6 +1,6 @@
 package com.example.blacksky.datamodels;
 
-public class ServiceProvidersDataModel {
+public class SPDataModel {
 
     private String Name;
     private String Phone;

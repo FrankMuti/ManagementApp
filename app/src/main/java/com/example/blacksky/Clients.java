@@ -114,9 +114,18 @@ public class Clients extends AppCompatActivity {
             }
             @Override
             public void onRightClicked(int position) {
-                mAdapter.pc_clients.remove(position);
-                mAdapter.notifyItemRemoved(position);
-                mAdapter.notifyItemChanged(position, mAdapter.getItemCount());
+                String name = mAdapter.pc_clients.get(position).getName();
+                String phone = mAdapter.pc_clients.get(position).getPhone();
+                Toast.makeText(getApplicationContext(),"Deleting "+ name, Toast.LENGTH_SHORT).show();
+                try{
+                    if (myDb.deleteData(phone, DatabaseHelper.PC_TABLE) > 0) {
+                        mAdapter.pc_clients.remove(position);
+                        mAdapter.notifyItemRemoved(position);
+                        mAdapter.notifyItemChanged(position, mAdapter.getItemCount());
+                    }
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
+                }
             }
         }, getApplicationContext());
 

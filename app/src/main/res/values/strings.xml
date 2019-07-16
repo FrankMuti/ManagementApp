@@ -52,5 +52,8 @@
     <string name="upcoming_events">Upcoming Events</string>
     <string name="potential">Potential</string>
     <string name="confirmed">Confirmed</string>
+    <string name="new_service_provider">New Service Provider</string>
+    <string name="name">Name</string>
+    <string name="service_earnings">Service Earnings</string>
 
 </resources>

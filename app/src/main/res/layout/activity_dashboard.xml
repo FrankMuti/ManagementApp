@@ -30,12 +30,29 @@
 
 
 
-        <CalendarView
-            android:id="@+id/ds_calendar"
-            android:layout_width="match_parent"
-            android:layout_height="270dp"
+        <!--<CalendarView-->
+            <!--android:id="@+id/ds_calendar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="270dp"-->
+            <!--android:layout_margin="3dp"-->
+            <!--android:background="@drawable/list_view_background"/>-->
+
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView
             android:layout_margin="3dp"
-            android:background="@drawable/list_view_background"/>
+            android:id="@+id/calendarView"
+            android:layout_width="fill_parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_height="250dp"
+            app:compactCalendarTargetHeight="250dp"
+            app:compactCalendarTextSize="12sp"
+            app:compactCalendarBackgroundColor="#FFFFFF"
+            app:compactCalendarTextColor="#1E1F20"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="#4CAF50"
+            app:compactCalendarCurrentDayBackgroundColor="#2196F3"
+            app:compactCalendarCurrentSelectedDayTextColor="#F3F3F3"
+            app:compactCalendarMultiEventIndicatorColor="#009688"
+            />
 
         <TextView
             android:textSize="16sp"

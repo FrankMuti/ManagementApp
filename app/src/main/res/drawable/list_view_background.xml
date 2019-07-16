@@ -4,6 +4,9 @@
     android:shape="rectangle">
 
     <!-- The width and color of the border -->
+
+    <corners android:radius="5dp"/>
+
     <stroke
         android:width="0.5dp"
         android:color="#D5D5D5"/>

@@ -12,8 +12,6 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-
-
     public static final String DATABASE_NAME = "BlackSkyLenses.db";
 
     // POTENTIAL CLIENTS TABLE
@@ -198,6 +196,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(table, "ID = ? ", new String[] {id});
     }
+
+
+    /*
+     * Get Average Data from Database
+     */
+
+    public int getTotalEarnings() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT SUM("+COL_DEPOSIT_C+") FROM " + CC_TABLE;
+        Cursor cs = db.rawQuery(query, null);
+        if (cs.moveToFirst()) {
+            return cs.getInt(0);
+        }
+        return 0;
+    }
+
+
+
+    public int getTotalServicePaid() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT SUM("+COL_DEPOSIT_SP+") FROM " + SPP_TABLE;
+        Cursor cs = db.rawQuery(query, null);
+        if (cs.moveToFirst()) {
+            return cs.getInt(0);
+        }
+        return 0;
+    }
+
+    public int getTotalEarnings(String Service){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT SUM("+COL_DEPOSIT_C+") FROM " + CC_TABLE + " WHERE SERVICE = '" + Service +"'";
+        Cursor cs = db.rawQuery(query, null);
+        if (cs.moveToFirst()) {
+            return cs.getInt(0);
+        }
+        return 10;
+    }
+
 
 }
 

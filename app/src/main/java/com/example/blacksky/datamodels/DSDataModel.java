@@ -8,7 +8,8 @@ public class DSDataModel {
     private String Date;
     private String Time;
     private String Service;
-
+    private String AgreedAmount;
+    private String Deposit;
 
     public String getName() {
         return Name;
@@ -56,5 +57,22 @@ public class DSDataModel {
 
     public void setService(String service) {
         Service = service;
+    }
+
+
+    public String getAgreedAmount() {
+        return AgreedAmount;
+    }
+
+    public void setAgreedAmount(String agreedAmount) {
+        AgreedAmount = agreedAmount;
+    }
+
+    public String getDeposit() {
+        return Deposit;
+    }
+
+    public void setDeposit(String deposit) {
+        Deposit = deposit;
     }
 }

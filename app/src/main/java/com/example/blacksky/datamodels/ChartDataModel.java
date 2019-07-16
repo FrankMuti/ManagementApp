@@ -1,38 +1,54 @@
 package com.example.blacksky.datamodels;
 
+import android.content.Context;
+
+import com.example.blacksky.databases.DatabaseHelper;
+import com.example.blacksky.properties.Properties;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChartDataModel {
 
-    private String[] C_ServiceName;
-    private int[] C_ServiceEarning;
-    private int[] S_ServicePaid;
+    private int totalEarnings;
+    private int totalSpending;
+    private List<Integer> jobEarning = new ArrayList<>();
 
-    public ChartDataModel(String[] C_ServiceName, int[] C_ServiceEarning, int[] S_ServicePaid) {
-        this.C_ServiceName = C_ServiceName;
-        this.C_ServiceEarning = C_ServiceEarning;
-        this.S_ServicePaid = S_ServicePaid;
+    DatabaseHelper myDb;
+
+    public ChartDataModel(Context context) {
+        myDb = new DatabaseHelper(context);
     }
 
-    private Object getObject(Object[] arr, int i){
-        return arr[i];
+
+    public void setTotalEarnings() {
+        totalEarnings = myDb.getTotalEarnings();
     }
 
-    private int totalServiceEarning() {
-        int total = 0;
-        for (int se : C_ServiceEarning){
-            total += se;
+    public int getTotalEarnings() {
+        setTotalEarnings();
+        return totalEarnings;
+    }
+
+    public void setTotalSpending() {
+        totalSpending = myDb.getTotalServicePaid();
+    }
+
+    public int getTotalSpending() {
+        setTotalSpending();
+        return totalSpending;
+    }
+
+    private int setJobEarning(String job){
+        return myDb.getTotalEarnings(job);
+    }
+
+    public List<Integer> getJobEarnings() {
+        for (String job : Properties.SERVICES) {
+            jobEarning.add(setJobEarning(job));
         }
-        return total;
+
+        return jobEarning;
     }
-
-    private int totalServicePaid() {
-        int total = 0;
-        for (int sp : S_ServicePaid) {
-            total += sp;
-        }
-        return total;
-    }
-
-
-
 
 }
