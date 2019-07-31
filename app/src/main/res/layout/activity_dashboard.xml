@@ -24,18 +24,48 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark"
             app:title="Black Sky Lenses"
             app:titleTextColor="@color/colorAccent"
             app:titleTextAppearance="@style/ToolbarTitle"/>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
 
+            <android.support.design.button.MaterialButton
+                android:id="@+id/btnCurrentMonth"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:background="#fff"
+                app:backgroundTint="#fff"
+                android:text="Feb 2019"
+                android:textAppearance="@style/FormApplication"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="#000000"/>
 
-        <!--<CalendarView-->
-            <!--android:id="@+id/ds_calendar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="270dp"-->
-            <!--android:layout_margin="3dp"-->
-            <!--android:background="@drawable/list_view_background"/>-->
+            <android.support.design.button.MaterialButton
+                android:id="@+id/btnToday"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:layout_height="wrap_content"
+                android:background="#00C853"
+                app:backgroundTint="#00C853"
+                android:text="@string/pick_time"
+                android:textAppearance="@style/FormApplication"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="#FDFCFC"/>
+
+        </LinearLayout>
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView
             android:layout_margin="3dp"
@@ -43,24 +73,26 @@
             android:layout_width="fill_parent"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
-            android:layout_height="250dp"
+            android:layout_height="230dp"
             app:compactCalendarTargetHeight="250dp"
             app:compactCalendarTextSize="12sp"
             app:compactCalendarBackgroundColor="#FFFFFF"
             app:compactCalendarTextColor="#1E1F20"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="#4CAF50"
-            app:compactCalendarCurrentDayBackgroundColor="#2196F3"
+            app:compactCalendarDisplayOtherMonthDays="false"
+            app:compactCalendarCurrentDayIndicatorStyle="no_fill_large_indicator"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="#00C853"
+            app:compactCalendarCurrentDayBackgroundColor="#0091EA"
             app:compactCalendarCurrentSelectedDayTextColor="#F3F3F3"
             app:compactCalendarMultiEventIndicatorColor="#009688"
             />
 
-        <TextView
-            android:textSize="16sp"
-            android:layout_marginStart="5dp"
-            android:layout_width="match_parent"
-            style="@style/FormApplication"
-            android:layout_height="wrap_content"
-            tools:text="Next Event" />
+        <!--<TextView-->
+            <!--android:textSize="16sp"-->
+            <!--android:layout_marginStart="5dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--style="@style/FormApplication"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--tools:text="Next Event" />-->
 
         <include layout="@layout/next_event_layout" />
 

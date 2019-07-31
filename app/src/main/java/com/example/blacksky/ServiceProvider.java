@@ -96,7 +96,7 @@ public class ServiceProvider extends AppCompatActivity {
                 int deposit = mAdapter.sp_providers.get(position).getDeposit();
                 int balance = mAdapter.sp_providers.get(position).getBalance();
 
-                Intent intent = new Intent(getApplicationContext(), NewClient.class);
+                Intent intent = new Intent(getApplicationContext(), NewServiceProvider.class);
                 intent.putExtra("title", title);
                 intent.putExtra("phone",phone);
                 intent.putExtra("name",name);

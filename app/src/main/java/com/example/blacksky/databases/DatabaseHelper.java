@@ -55,6 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_PHONE_A = "PHONE";
     public static final String COL_SERVICE_A = "SERVICE";
     public static final String COL_AMOUNT_A = "AMOUNT";
+    public static final String COL_DEPOSIT_A = "DEPOSIT";
+    public static final String COL_BALANCE_A = "BALANCE";
 
 
     // MY USERS
@@ -83,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "NAME TEXT, PHONE TEXT, SERVICE TEXT, LOCKED_DATE TEXT ,AGREED_AMOUNT INTEGER, DEPOSIT INTEGER, BALANCE INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + SERVICES_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, SERVICE TEXT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + AC_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "NAME TEXT, PHONE TEXT, SERVICE TEXT ,AMOUNT INTEGER)");
+                "NAME TEXT, PHONE TEXT, SERVICE TEXT ,AMOUNT INTEGER, DEPOSIT INTEGER, BALANCE INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + MS_USER + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, PHONE TEXT)");
     }
 
@@ -148,14 +150,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean insertACData(String name, String phone,String service ,String amount) {
+    public boolean insertACData(String name, String phone,String service ,String amount, String deposit) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+
+        int balance = Integer.parseInt(amount) - Integer.parseInt(deposit);
+
         cv.put(COL_NAME_A, name);
         cv.put(COL_PHONE_A, phone);
         cv.put(COL_SERVICE_A, service);
         cv.put(COL_AMOUNT_A, amount);
+        cv.put(COL_DEPOSIT_A, deposit);
+        cv.put(COL_BALANCE_A, balance);
         long result = db.insert(AC_TABLE, null, cv);
+
         return result != -1;
     }
 
@@ -253,6 +261,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return cs.getInt(0);
         }
         return 0;
+    }
+
+    public static boolean deleteDatabase(Context context) {
+        return context.deleteDatabase(DATABASE_NAME);
     }
 
 

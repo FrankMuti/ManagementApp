@@ -58,5 +58,8 @@
     <string name="save_to_excel">Generate Excel</string>
     <string name="cancel">Cancel</string>
     <string name="attended">Attended</string>
+    <string name="retrieve_excel">Retrieve Excel</string>
+    <string name="completed_jobs">Completed</string>
+    <string name="edit_event">Edit Event</string>
 
 </resources>

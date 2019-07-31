@@ -1,5 +1,7 @@
 package com.example.blacksky.properties;
 
+import android.content.res.Resources;
+
 public class Properties {
 
     public static final String EDIT_CLIENT = "Edit Client";
@@ -14,4 +16,8 @@ public class Properties {
             "BRIDAL SHOWERS", "ENGAGEMENT SHOOT", "CORP AND COMMERCIAL COVERAGE", "INTERIOR/ REAL ESTATE PHOTOGRAPHY"};
 
     public static final     String[] MONTHS= {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
+    public static final String ATTENDED_CLIENTS = "Attended Clients";
+
+    public static final int EXCEL_FILE_REQUEST_CODE = 1100;
+
 }

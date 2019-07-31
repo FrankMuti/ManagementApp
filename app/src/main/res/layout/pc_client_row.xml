@@ -91,7 +91,21 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Corporate Photography" />
+                tools:text="10,000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="    Balance : "/>
+
+            <TextView
+                android:id="@+id/pc_balance"
+                android:layout_margin="2dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10,000" />
 
         </LinearLayout>
 

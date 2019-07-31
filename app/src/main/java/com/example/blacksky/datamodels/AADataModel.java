@@ -6,6 +6,8 @@ public class AADataModel {
     private String Phone;
     private String Service;
     private String Amount;
+    private String Deposit;
+    private String balance;
 
 
     public String getName() {
@@ -38,5 +40,21 @@ public class AADataModel {
 
     public void setAmount(String amount) {
         Amount = amount;
+    }
+
+    public String getDeposit() {
+        return Deposit;
+    }
+
+    public void setDeposit(String deposit) {
+        Deposit = deposit;
+    }
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
     }
 }

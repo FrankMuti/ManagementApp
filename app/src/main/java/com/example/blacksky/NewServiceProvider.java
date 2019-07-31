@@ -39,6 +39,7 @@ public class NewServiceProvider extends AppCompatActivity{
     TextView nsDateText;
     TextInputEditText nsAgreedAmount;
     TextInputEditText nsDepositAmount;
+    TextView nsBalance;
 
     private String sName;
     private String sPhone;
@@ -118,6 +119,9 @@ public class NewServiceProvider extends AppCompatActivity{
         nsAgreedAmount.setText(agreed);
         nsDepositAmount.setText(deposit);
 
+
+
+        nsBalance.setText(String.valueOf(Integer.parseInt(agreed) - Integer.parseInt(deposit)));
     }
 
 
@@ -206,7 +210,7 @@ public class NewServiceProvider extends AppCompatActivity{
         nsDateText = findViewById(R.id.nsDateTxt);
         nsAgreedAmount = findViewById(R.id.nsAgreedAmount);
         nsDepositAmount = findViewById(R.id.nsDepositAmount);
-
+        nsBalance = findViewById(R.id.nsBalance);
         nsDatePicker.setOnClickListener(v -> datePicker(nsDateText));
 
 

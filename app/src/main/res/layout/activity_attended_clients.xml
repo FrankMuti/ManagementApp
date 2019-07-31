@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccentBlue"
-            app:title="@string/attended"
+            app:title="@string/completed_jobs"
             app:titleTextAppearance="@style/ToolbarTitle"
             app:titleTextColor="@color/colorAccent"
             android:minHeight="?attr/actionBarSize"

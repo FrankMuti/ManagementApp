@@ -35,16 +35,18 @@
             android:icon="@drawable/ic_services"/>
 
         <item
+            android:id="@+id/navAttendedClients"
+            android:title="@string/completed_jobs"
+            android:checkable="false"
+            android:icon="@drawable/ic_group_black_24dp" />
+
+        <item
             android:id="@+id/navReport"
             android:title="@string/report"
             android:checkable="false"
             android:icon="@drawable/icons8_ledger_100px" />
 
-        <item
-            android:id="@+id/navAttendedClients"
-            android:title="@string/attended"
-            android:checkable="false"
-            android:icon="@drawable/ic_group_black_24dp" />
+
 
     </group>
 

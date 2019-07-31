@@ -61,6 +61,7 @@
                 <Spinner
                     android:id="@+id/ncServiceSpinner"
                     android:layout_width="match_parent"
+                    style="@android:style/Widget.Spinner.DropDown"
                     android:layout_height="wrap_content"
                     />
 
@@ -221,6 +222,13 @@
                         android:textColorHint="#6D7A88"
                         />
 
+                    <TextView
+                        android:id="@+id/ncBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Balance: "
+                        style="@style/FormApplication"/>
                 </LinearLayout>
 
 

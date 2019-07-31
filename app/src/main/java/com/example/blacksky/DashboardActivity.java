@@ -1,19 +1,18 @@
 package com.example.blacksky;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -37,9 +35,7 @@ import com.example.blacksky.recylceradapters.SwipeControllerActions;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
-import org.apache.poi.ss.formula.functions.T;
-
-import java.text.ParseException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,6 +50,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     Toolbar toolbar;
     SwipeController swipeController = null;
     CompactCalendarView calendarView;
+    MaterialButton currentMonthBtn;
+    MaterialButton todayBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +74,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 setPopUpMenu(button);
             }
         });
@@ -106,9 +105,39 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                        // Toast.makeText(getApplicationContext(), "Attended Event", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.cancelEvent:
-                        deleteEvent();
+
+                        TextView phone = findViewById(R.id.next_phone);
+                        TextView name = findViewById(R.id.next_name);
+//
+//                        final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+//                        builder.setCancelable(false);
+//                        builder.setTitle("Delete");
+//                        builder.setMessage("Are you sure you want to delete");
+//                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Toast.makeText(getApplicationContext(), "Deleted " + name.getText().toString(), Toast.LENGTH_SHORT).show();
+//                                del = true;
+//                            }
+//                        });
+//
+//                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Toast.makeText(getApplicationContext(), "Not Deleted", Toast.LENGTH_SHORT).show();
+//                                del = false;
+//                            }
+//                        });
+//
+//                        AlertDialog alertDialog = builder.create();
+//                        alertDialog.show();
+
+                        //if (del)
+                            deleteEvent();
                         Toast.makeText(getApplicationContext(), "Cancel Event", Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.mEditEvent:
+                        editEvent();
                 }
                 return true;
             }
@@ -151,6 +180,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onLeftClicked(int position) {
+
                 String title = Properties.CONFIRMED_CLIENT;
                 String name = mAdapter.up_events.get(position).getName();
                 String phone = mAdapter.up_events.get(position).getPhone();
@@ -175,40 +205,43 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 startActivity(intent);
             }
 
-            boolean del;
+            boolean del = false;
             @Override
             public void onRightClicked(int position) {
                 String name = mAdapter.up_events.get(position).getName();
                 String phone = mAdapter.up_events.get(position).getPhone();
                 Toast.makeText(getApplicationContext(),"Deleting "+ name, Toast.LENGTH_SHORT).show();
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                builder.setCancelable(false);
-                builder.setTitle("Delete");
-                builder.setMessage("Are you sure you want to delete");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Deleted " + name, Toast.LENGTH_SHORT).show();
-                        del = true;
-                    }
-                });
-
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Not Deleted", Toast.LENGTH_SHORT).show();
-                        del = false;
-                    }
-                });
+//                final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+//                builder.setCancelable(false);
+//                builder.setTitle("Delete");
+//                builder.setMessage("Are you sure you want to delete");
+//                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getApplicationContext(), "Deleted " + name, Toast.LENGTH_SHORT).show();
+//                        del = true;
+//                    }
+//                });
+//
+//                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getApplicationContext(), "Not Deleted", Toast.LENGTH_SHORT).show();
+//                        del = false;
+//                    }
+//                });
+//
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
 
                 try{
-                    if (del)
-                        if (myDb.deleteData(phone, DatabaseHelper.CC_TABLE) > 0) {
-                            mAdapter.up_events.remove(position);
-                            mAdapter.notifyItemRemoved(position);
-                            mAdapter.notifyItemChanged(position, mAdapter.getItemCount());
-                        }
+                  //  if (del)
+                    if (myDb.deleteData(phone, DatabaseHelper.CC_TABLE) > 0) {
+                        mAdapter.up_events.remove(position);
+                        mAdapter.notifyItemRemoved(position);
+                        mAdapter.notifyItemChanged(position, mAdapter.getItemCount());
+                    }
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
                 }
@@ -269,24 +302,66 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         service.setText(up_events.get(0).getService());
     }
 
-
+    boolean del = false;
     private void deleteEvent() {
+
         TextView phone = findViewById(R.id.next_phone);
 
-        myDb.deleteData(phone.getText().toString(), DatabaseHelper.CC_TABLE);
-        setNextEvent();
-        setUpComingEventsDataAdapter();
-        setCalendarView();
+
+            myDb.deleteData(phone.getText().toString(), DatabaseHelper.CC_TABLE);
+            setNextEvent();
+            setUpComingEventsDataAdapter();
+            setCalendarView();
+
+    }
+
+    private void editEvent() {
+        List<DSDataModel> events = ConfirmedClientsData.getUp_events(this);
+
+        if (events.size() == 0) {
+            Toast.makeText(this, "No Available Clients", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String title = Properties.CONFIRMED_CLIENT;
+        String name = events.get(0).getName();
+        String phone = events.get(0).getPhone();
+        String location = events.get(0).getLocation();
+        String date = events.get(0).getDate();
+        String time = events.get(0).getTime();
+        String service = events.get(0).getService();
+        String agreed = events.get(0).getAgreedAmount();
+        String deposit = events.get(0).getDeposit();
+
+        Intent intent = new Intent(getApplicationContext(), NewClient.class);
+        intent.putExtra("title", title);
+        intent.putExtra("name", name);
+        intent.putExtra("phone", phone);
+        intent.putExtra("location", location);
+        intent.putExtra("date", date);
+        intent.putExtra("time", time);
+        intent.putExtra("service", service);
+        intent.putExtra("agreed", agreed);
+        intent.putExtra("deposit", deposit);
+        intent.putExtra("confirmed_client", Properties.CONFIRMED_CLIENT);
+        startActivity(intent);
+
     }
 
     private void attendEvent() {
-        TextView phone = findViewById(R.id.next_phone);
         List<DSDataModel> events = ConfirmedClientsData.getUp_events(this);
+
+        if (events.size() == 0) {
+            Toast.makeText(this, "No Available Clients", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (myDb.insertACData(
                 events.get(0).getName(),
                 events.get(0).getPhone(),
                 events.get(0).getService(),
-                events.get(0).getAgreedAmount()
+                events.get(0).getAgreedAmount(),
+                events.get(0).getDeposit()
         )){
 
             deleteEvent();
@@ -296,12 +371,27 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setCalendarView() {
-
         List<DSDataModel> up_events = ConfirmedClientsData.getUp_events(this);
         List<Long> longDates = ConfirmedClientsData.getDates(up_events);
 
-        calendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        String year = String.valueOf(calendarView.getFirstDayOfCurrentMonth().getYear() + 1900);
+        int m = calendarView.getFirstDayOfCurrentMonth().getMonth();
+
+        int day = Calendar.getInstance().getTime().getDate();
+        currentMonthBtn = findViewById(R.id.btnCurrentMonth);
+        todayBtn = findViewById(R.id.btnToday);
+
+        currentMonthBtn.setText(Properties.MONTHS[m] + " " + year);
+        calendarView.setFirstDayOfWeek(Calendar.SUNDAY);
+
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+
+
+        todayBtn.setText("Today: " + dateFormat.format(date));
 
         List<Event> event_dates = new ArrayList<>();
         for(int i = 0; i < longDates.size(); i++) {
@@ -319,14 +409,27 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                //List<Event> events = calendarView.getEvents(dateClicked);
+                Toast.makeText(getApplicationContext(), dateClicked.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-
+                String year = String.valueOf(calendarView.getFirstDayOfCurrentMonth().getYear() + 1900);
+                int m = calendarView.getFirstDayOfCurrentMonth().getMonth();
+              //  Toast.makeText(getApplicationContext(), month, Toast.LENGTH_SHORT).show();
+                currentMonthBtn.setText(Properties.MONTHS[m] + " " + year);
             }
         });
+
+       // calendarView.displayOtherMonthDays(true);
+
+        todayBtn.setOnClickListener((v -> {
+            calendarView.setCurrentDate(Calendar.getInstance().getTime());
+           // calendarView.scrollRight();
+            setCalendarView();
+
+        }));
+
     }
 
     @Override

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccentBlue"
-        app:title="@string/new_client"
+        app:title="@string/new_service_provider"
         app:titleTextAppearance="@style/ToolbarTitle"
         app:titleTextColor="@color/colorAccent"
         android:minHeight="?attr/actionBarSize"
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="@string/new_client"
+                android:text="@string/new_service_provider"
                 style="@style/FormApplication"/>
 
             <LinearLayout
@@ -155,6 +155,14 @@
                         android:textColor="#333"
                         android:textColorHint="#6D7A88"
                         />
+
+                    <TextView
+                        android:id="@+id/nsBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Balance: "
+                        style="@style/FormApplication"/>
 
                 </LinearLayout>
 

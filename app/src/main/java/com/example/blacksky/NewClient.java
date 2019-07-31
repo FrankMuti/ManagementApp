@@ -15,9 +15,11 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -33,6 +35,7 @@ import com.example.blacksky.datastructures.PotentialClientsData;
 import com.example.blacksky.properties.Properties;
 
 import org.jetbrains.annotations.Contract;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,6 +65,7 @@ public class NewClient extends AppCompatActivity{
     LinearLayout llConfirmed;
     TextInputEditText ncAgreedAmount;
     TextInputEditText ncDepositAmount;
+    TextView ncBalance;
 
     private String cName;
     private String cPhone;
@@ -71,6 +75,7 @@ public class NewClient extends AppCompatActivity{
     private String cService;
     private String cAgreedAmount;
     private String cDepositAmount;
+    private String cBalance;
 
     String[] time = {"PM", "AM"};
     String[] months = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
@@ -89,6 +94,7 @@ public class NewClient extends AppCompatActivity{
     String service;
     String agreed;
     String deposit;
+    String balance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +128,7 @@ public class NewClient extends AppCompatActivity{
             try{
                 agreed = getIntent().getStringExtra("agreed");
                 deposit = getIntent().getStringExtra("deposit");
+                balance = getIntent().getStringExtra("balance");
             }catch (Exception e){
                 Toast.makeText(this, "Not Found", Toast.LENGTH_SHORT).show();
             }
@@ -144,6 +151,10 @@ public class NewClient extends AppCompatActivity{
             editClientView();
             Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
             TAG = 0;
+        } else if (title.equals(Properties.ATTENDED_CLIENTS)) {
+            editClientView();
+            Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
+            TAG = 3;
         }
         else {
             newClientView();
@@ -155,20 +166,24 @@ public class NewClient extends AppCompatActivity{
     private void editClientView(){
         toolbar.setTitle(title);
         myDb = new DatabaseHelper(this);
-       // initialize();
-
-//        String all = name.concat(phone).concat(location).concat(date).concat(time_et).concat(service);
-//
-//        if (all.length() > 0)
-//            Toast.makeText(getApplicationContext(), all, Toast.LENGTH_SHORT).show();
-//        else
-//            Toast.makeText(getApplicationContext(), "Empty", Toast.LENGTH_SHORT).show();
-
         if (title.equals(Properties.CONFIRMED_CLIENT)){
             checkConfirmed.setChecked(true);
             check();
             ncAgreedAmount.setText(agreed);
             ncDepositAmount.setText(deposit);
+
+            ncBalance.setText(String.valueOf(Integer.parseInt(agreed) - Integer.parseInt(deposit)));
+        } else if (title.equals(Properties.ATTENDED_CLIENTS)){
+            checkConfirmed.setChecked(true);
+            check();
+            ncAgreedAmount.setText(agreed);
+            ncDepositAmount.setText(deposit);
+            ncDateText.setVisibility(View.GONE);
+            ncDatePicker.setVisibility(View.GONE);
+            ncTimeText.setVisibility(View.GONE);
+            ncLocation.setVisibility(View.GONE);
+            checkConfirmed.setVisibility(View.GONE);
+            ncTimePicker.setVisibility(View.GONE);
         }
 
         ncName.setText(name);
@@ -177,6 +192,7 @@ public class NewClient extends AppCompatActivity{
         ncDateText.setText(date);
         ncTimeText.setText(time_et);
         ncSpinner.setSelection(setSpinner(service));
+
     }
 
     @Contract(pure = true)
@@ -192,8 +208,6 @@ public class NewClient extends AppCompatActivity{
     private void newClientView() {
         toolbar.setTitle("New Client");
         myDb = new DatabaseHelper(this);
-
-
     }
 
     private boolean checkIfExists(String table) {
@@ -261,7 +275,21 @@ public class NewClient extends AppCompatActivity{
         cService = ncSpinner.getSelectedItem().toString();
         cAgreedAmount = getString(ncAgreedAmount);
         cDepositAmount = getString(ncDepositAmount);
-       // Toast.makeText(this, cService, Toast.LENGTH_SHORT).show();
+
+        if (title.equals(Properties.ATTENDED_CLIENTS)) {
+
+            if (checkIfExists(DatabaseHelper.AC_TABLE))
+                myDb.deleteData(cPhone, DatabaseHelper.AC_TABLE);
+            if (myDb.insertACData(cName, cPhone, cService, cAgreedAmount, cDepositAmount)) {
+                Toast.makeText(getApplicationContext(), "Client Updated", Toast.LENGTH_SHORT).show();
+                clearAll();
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed To add", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            return true;
+        }
+
         if (checkTextInput(cName, ncName) && checkTextInput(cPhone, ncPhone) && checkTextInput(cLocation, ncLocation)
                 && checkTextInput(cDate, ncDateText) && checkTextInput(cTime, ncTimeText)
                 && checkTextInput(cAgreedAmount, ncAgreedAmount)
@@ -270,15 +298,40 @@ public class NewClient extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(), "Select Service", Toast.LENGTH_SHORT).show();
                 return false;
             }
-            if (myDb.insertCCData(cName, cPhone, cLocation, cService, cDate, cTime, cAgreedAmount, cDepositAmount)){
+
+            if (title.equals(Properties.EDIT_CLIENT)) {
+                if (myDb.insertCCData(cName, cPhone, cLocation, cService, cDate, cTime, cAgreedAmount, cDepositAmount)) {
+                    Toast.makeText(getApplicationContext(), "Client Added", Toast.LENGTH_SHORT).show();
+                   // myDb.deleteData(cPhone, DatabaseHelper.PC_TABLE);
+                    clearAll();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed To add", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                return true;
+            }
+
+            if (title.equals(Properties.CONFIRMED_CLIENT)) {
+                if (myDb.insertCCData(cName, cPhone, cLocation, cService, cDate, cTime, cAgreedAmount, cDepositAmount)) {
+                    Toast.makeText(getApplicationContext(), "Client Added", Toast.LENGTH_SHORT).show();
+                    clearAll();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed To add", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                return true;
+            }
+            // New Client
+            if (myDb.insertCCData(cName, cPhone, cLocation, cService, cDate, cTime, cAgreedAmount, cDepositAmount)) {
                 Toast.makeText(getApplicationContext(), "Client Added", Toast.LENGTH_SHORT).show();
-                myDb.deleteData(cName, DatabaseHelper.PC_TABLE);
+
                 clearAll();
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Failed To add", Toast.LENGTH_SHORT).show();
                 return false;
             }
             return true;
+
         }
 
         return false;
@@ -298,6 +351,7 @@ public class NewClient extends AppCompatActivity{
         ncAgreedAmount = findViewById(R.id.ncAgreedAmount);
         ncDepositAmount = findViewById(R.id.ncDepositAmount);
         checkConfirmed.setChecked(false);
+        ncBalance = findViewById(R.id.ncBalance);
         check();
         setServiceSpinnerList();
         setSpinner();
@@ -316,7 +370,6 @@ public class NewClient extends AppCompatActivity{
                 timePicker(ncTimeText);
             }
         });
-
     }
 
     private void setupCheckBoxes() {
@@ -360,13 +413,39 @@ public class NewClient extends AppCompatActivity{
         List<String> categories = new ArrayList<>();
         Collections.addAll(categories, services);
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, categories);
+//        {
+//          //  @androidx.annotation.NonNull
+//            @Override
+//            public View getView(int position, View convertView,ViewGroup parent) {
+//                View v = super.getView(position, convertView, parent);
+//                ((TextView) v).setTextSize(14);
+//                ((TextView) v).setTextColor(
+//                       getResources().getColor(R.color.colorAccentBlue)
+//                );
+//                return v;
+//            }
+//
+//            @Override
+//            public View getDropDownView(int position,View convertView, ViewGroup parent) {
+//                View v = super.getDropDownView(position, convertView, parent);
+//               // v.setBackgroundResource(android.R.drawable.spinner_dropdown_background);
+//                ((TextView) v).setTextColor(
+//                        getResources().getColor(R.color.darkText)
+//                );
+//
+//              //  ((TextView) v).setTypeface(getResources().getFont(R.font.roboto_light));
+//                ((TextView) v).setGravity(Gravity.LEFT);
+//                return v;
+//            }
+//        };
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         ncSpinner.setAdapter(dataAdapter);
     }
 
     private void initSpinner() {
-       // ncSpinner.setPrompt("Category");
+
     }
 
     int mYear, mMonth, mDay;
@@ -398,13 +477,23 @@ public class NewClient extends AppCompatActivity{
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String tt = hourOfDay >= 12 ? time[0] : time[1];
-                String time = String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + " " + tt;
+
+                String hr = String.valueOf(hourOfDay);
+                if (hr.length() == 1) {
+                    hr = "0" + hr;
+                }
+
+                String min = String.valueOf(minute);
+                if (min.length() == 1){
+                    min = "0" + min;
+                }
+
+                String time = String.valueOf(hourOfDay) + ":" + min + " " + tt;
                 tx.setText(time);
             }
         }, mHour, mMinute, true);
         timePickerDialog.show();
     }
-
 
     @SuppressLint("SetTextI18n")
     private void clearAll() {
@@ -433,11 +522,14 @@ public class NewClient extends AppCompatActivity{
     }
 
     private void checkWhichDBUpdated(){
-       // if (cAgreedAmount.length() == 0) {
-            checkIfExists(DatabaseHelper.CC_TABLE);
-       // }else {
-            checkIfExists(DatabaseHelper.PC_TABLE);
-       // }
+        if (checkIfExists(DatabaseHelper.CC_TABLE))
+            Toast.makeText(this, "CC TABLE", Toast.LENGTH_SHORT).show();
+
+        if (checkIfExists(DatabaseHelper.PC_TABLE))
+            Toast.makeText(this, "CC TABLE", Toast.LENGTH_SHORT).show();
+
+        if (checkIfExists(DatabaseHelper.AC_TABLE))
+            Toast.makeText(this, "CC TABLE", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -453,6 +545,8 @@ public class NewClient extends AppCompatActivity{
                     startActivity(new Intent(this, Clients.class));
                 else if (title.equals(Properties.CONFIRMED_CLIENT))
                     startActivity(new Intent(this, DashboardActivity.class));
+                else if (title.equals(Properties.ATTENDED_CLIENTS))
+                    startActivity(new Intent(this, AttendedClients.class));
                 else
                     startActivity(new Intent(this, Clients.class));
             }else {

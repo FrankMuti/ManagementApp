@@ -30,6 +30,8 @@ public class AttendedClientsData {
             String cPhone = res.getString(2);
             String cService = res.getString(3);
             String cAmount = res.getString(4);
+            String cDeposit = res.getString(5);
+            String cBalance = res.getString(6);
 
             AADataModel ac_client = new AADataModel();
 
@@ -37,6 +39,8 @@ public class AttendedClientsData {
             ac_client.setPhone(cPhone);
             ac_client.setService(cService);
             ac_client.setAmount(cAmount);
+            ac_client.setDeposit(cDeposit);
+            ac_client.setBalance(cBalance);
 
             aa_clients.add(ac_client);
         }
