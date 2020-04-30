@@ -25,7 +25,7 @@
             android:theme="?attr/actionBarTheme"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:title="Black Sky Lenses"
+            app:title="Stein Multi-Tech"
             app:titleTextColor="@color/colorAccent"
             app:titleTextAppearance="@style/ToolbarTitle"/>
 

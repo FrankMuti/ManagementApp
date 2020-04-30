@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Black Sky Lenses</string>
+    <string name="app_name">Stein Multi-Tech</string>
     <string name="black_sky_lenses">Black Sky Lenses</string>
     <string name="username">username</string>
     <string name="company_logo">Company Logo</string>
@@ -61,5 +61,6 @@
     <string name="retrieve_excel">Retrieve Excel</string>
     <string name="completed_jobs">Completed</string>
     <string name="edit_event">Edit Event</string>
+    <string name="stein_multitech_inc_2019">Stein Multitech Inc (2019)</string>
 
 </resources>

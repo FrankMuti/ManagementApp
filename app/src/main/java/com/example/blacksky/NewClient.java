@@ -77,12 +77,6 @@ public class NewClient extends AppCompatActivity{
     private String cDepositAmount;
     private String cBalance;
 
-    String[] time = {"PM", "AM"};
-    String[] months = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
-    String[] services = {"NONE","WEDDING PHOTOGRAPHY", "WEDDING VIDEOGRAPHY", "WEDDING PHOTOGRAPHY & VIDEOGRAPHY", "FAMILY PHOTOSHOOT", "BIRTHDAY SHOOT",
-            "STUDIO SHOOT", "COUPLE SHOOT", "FASHION SHOOT", "PRODUCT PHOTOGRAPHY", "GRADUATION SHOOT", "BABY SHOWERS", "BRIDAL SHOWERS",
-            "BRIDAL SHOWERS", "ENGAGEMENT SHOOT", "CORP AND COMMERCIAL COVERAGE", "INTERIOR/ REAL ESTATE PHOTOGRAPHY"};
-
     String title = "NULL";
     String search_phone = "";
 
@@ -197,8 +191,8 @@ public class NewClient extends AppCompatActivity{
 
     @Contract(pure = true)
     private int setSpinner(String service) {
-        for (int i = 0; i < services.length; i++){
-            if (service.equals(services[i])){
+        for (int i = 0; i < Properties.SERVICES.length; i++){
+            if (service.equals(Properties.SERVICES[i])){
                 return i;
             }
         }
@@ -411,34 +405,10 @@ public class NewClient extends AppCompatActivity{
 
     private void setServiceSpinnerList() {
         List<String> categories = new ArrayList<>();
-        Collections.addAll(categories, services);
+        Collections.addAll(categories, Properties.SERVICES);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, categories);
-//        {
-//          //  @androidx.annotation.NonNull
-//            @Override
-//            public View getView(int position, View convertView,ViewGroup parent) {
-//                View v = super.getView(position, convertView, parent);
-//                ((TextView) v).setTextSize(14);
-//                ((TextView) v).setTextColor(
-//                       getResources().getColor(R.color.colorAccentBlue)
-//                );
-//                return v;
-//            }
-//
-//            @Override
-//            public View getDropDownView(int position,View convertView, ViewGroup parent) {
-//                View v = super.getDropDownView(position, convertView, parent);
-//               // v.setBackgroundResource(android.R.drawable.spinner_dropdown_background);
-//                ((TextView) v).setTextColor(
-//                        getResources().getColor(R.color.darkText)
-//                );
-//
-//              //  ((TextView) v).setTypeface(getResources().getFont(R.font.roboto_light));
-//                ((TextView) v).setGravity(Gravity.LEFT);
-//                return v;
-//            }
-//        };
+
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ncSpinner.setAdapter(dataAdapter);
@@ -460,7 +430,7 @@ public class NewClient extends AppCompatActivity{
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                tx.setText(dayOfMonth + "-" + months[month] + "-" + year);
+                tx.setText(dayOfMonth + "-" + Properties.MONTHS[month] + "-" + year);
             }
         }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -476,7 +446,7 @@ public class NewClient extends AppCompatActivity{
         TimePickerDialog timePickerDialog = new TimePickerDialog(NewClient.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                String tt = hourOfDay >= 12 ? time[0] : time[1];
+                String tt = hourOfDay >= 12 ? Properties.TIME[0] : Properties.TIME[1];
 
                 String hr = String.valueOf(hourOfDay);
                 if (hr.length() == 1) {

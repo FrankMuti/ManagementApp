@@ -63,7 +63,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         // toolbar setup
         toolbar = findViewById(R.id.ds_toolbar);
-        toolbar.setTitle("Black Sky Lenses");
+        toolbar.setTitle(getString(R.string.app_name));
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitle);
         toolbar.setTitleTextColor(Color.parseColor("#f3f3f3"));
         setSupportActionBar(toolbar);

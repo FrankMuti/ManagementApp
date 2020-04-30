@@ -61,7 +61,6 @@
                 <Spinner
                     android:id="@+id/ncServiceSpinner"
                     android:layout_width="match_parent"
-                    style="@android:style/Widget.Spinner.DropDown"
                     android:layout_height="wrap_content"
                     />
 
